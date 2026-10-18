@@ -124,3 +124,26 @@ async function getStaffAtual(user) {
   }
   return log ? { ...log, tipo_conta: 'logistica' } : null;
 }
+
+// -----------------------------------------------------------------------
+// Alojamento e quarto só existem nos pacotes Madragoa e Santos.
+// Para incluir outro pacote no futuro, basta acrescentar o nome aqui.
+// -----------------------------------------------------------------------
+const PACOTES_COM_ALOJAMENTO = ['madragoa', 'santos'];
+
+function pacoteTemAlojamento(nomePacote) {
+  const n = String(nomePacote ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  return PACOTES_COM_ALOJAMENTO.some(p => n.includes(p));
+}
+
+// A política de segurança só devolve o pacote do próprio participante.
+async function getPacoteDoParticipante(p) {
+  if (!p?.pacote_id) return null;
+  const { data, error } = await supabaseClient
+    .from('pacotes')
+    .select('nome, descricao')
+    .eq('id', p.pacote_id)
+    .maybeSingle();
+  if (error) { console.error('Erro ao ir buscar o pacote:', error.message, error.details, error.hint); return null; }
+  return data;
+}

@@ -8,383 +8,112 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="jenc-tema.css">
 <style>
-  :root {
-    --bg: #0C2340;
-    --card: rgba(22, 55, 95, 0.46);
-    --accent: #BD8C1C;
-    --text: #F6F1E4;
-    --muted: #93A6BF;
-    --border: rgba(189, 140, 28, 0.24);
-  }
-  * { box-sizing: border-box; }
-  .fundo-foto {
-    position: fixed; inset: 0; z-index: -2;
-    background-image: url("jenc-fundo.png");
-    background-size: 640px auto;
-    background-position: top center;
-    background-repeat: repeat;
-  }
-  .fundo-veu {
-    position: fixed; inset: 0; z-index: -1;
-    background: linear-gradient(180deg, rgba(12,35,64,0.55) 0%, rgba(12,35,64,0.72) 55%, rgba(12,35,64,0.88) 100%);
-  }
-  .card, [class*="card"], [class*="item-"], [class*="cartao"], [class*="aba"], .painel-detalhe, input {
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-  }
-  h1, h2 { font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: -0.015em; }
-  body {
-    margin: 0;
-    font-family: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    padding: 20px 16px 90px;
-    max-width: 480px;
-    margin-inline: auto;
-  }
-  .voltar {
-    display: inline-block;
-    color: var(--muted);
-    font-size: 13px;
-    text-decoration: none;
-    margin-bottom: 14px;
-  }
-  h1 { font-size: 22px; margin: 0 0 18px; }
+  body { padding: 22px 16px 110px; max-width: 480px; margin-inline: auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .sub { color: var(--suave); font-size: 13px; margin: 0 0 18px; }
 
-  .abas-pisos {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    margin-bottom: 16px;
-  }
-  .aba-piso {
-    flex-shrink: 0;
-    padding: 10px 16px;
-    border-radius: 10px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .aba-piso.ativa {
-    background: var(--accent);
-    color: #0C2340;
-    border-color: var(--accent);
-  }
+  .abas-pisos { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 8px; margin-bottom: 12px; scrollbar-width: none; }
+  .abas-pisos::-webkit-scrollbar { display: none; }
+  .aba-piso { flex-shrink: 0; padding: 9px 16px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
 
-  .mapa-imagem {
-    position: relative;
-    width: 100%;
-    padding-bottom: 120%;
-    border-radius: 14px;
-    overflow: hidden;
-    background: var(--card);
-    border: 1px solid var(--border);
-    margin-bottom: 14px;
-  }
-  .mapa-imagem.sem-imagem {
-    background-image:
-      repeating-linear-gradient(45deg, #1c2e46 0, #1c2e46 12px, #12283F 12px, #12283F 24px);
-    border-style: dashed;
-  }
-  .mapa-imagem img {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-  }
-  .aviso-placeholder {
-    position: absolute; top: 10px; left: 10px; right: 10px;
-    text-align: center;
-    font-size: 11px;
-    color: var(--muted);
-    background: rgba(15,27,43,0.75);
-    padding: 6px 10px;
-    border-radius: 8px;
-  }
+  .mapa-caixa { position: relative; width: 100%; border-radius: 18px; overflow: hidden; cursor: zoom-in;
+    background: rgba(22,55,95,.5); border: 1px solid var(--hairline); box-shadow: 0 8px 24px rgba(0,0,0,.25); min-height: 220px; }
+  .mapa-caixa img { display: block; width: 100%; height: auto; }
+  .mapa-caixa .aviso { padding: 60px 20px; text-align: center; font-size: 13px; color: var(--suave); }
+  .dica { text-align: center; font-size: 12px; color: var(--suave); margin: 10px 0 0; }
 
-  .pin {
-    position: absolute;
-    width: 16px; height: 16px;
-    background: var(--accent);
-    border: 2px solid #0C2340;
-    border-radius: 50% 50% 50% 0;
-    transform: translate(-50%, -100%) rotate(-45deg);
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  }
-  .pin.destaque {
-    background: #7CD992;
-    animation: pulsar 1.2s ease-in-out infinite;
-  }
-  @keyframes pulsar {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(124,217,146,0.5); }
-    50% { box-shadow: 0 0 0 10px rgba(124,217,146,0); }
-  }
-
-  .painel-detalhe {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 16px;
-    display: none;
-  }
-  .painel-detalhe .tag {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--accent);
-    background: #BD8C1C20;
-    padding: 3px 8px;
-    border-radius: 999px;
-    margin-bottom: 8px;
-  }
-  .painel-detalhe .nome { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
-  .painel-detalhe .descricao { font-size: 13px; color: var(--muted); line-height: 1.5; }
-
-  section h3 { font-size: 13px; color: var(--muted); margin: 20px 0 10px; font-weight: 600; }
-  .item-local-sem-pin {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    margin-bottom: 8px;
-    font-size: 13px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .item-local-sem-pin .nome { font-weight: 500; }
-  .item-local-sem-pin .tipo { color: var(--muted); font-size: 11px; }
-
-  .vazio, .carregamento {
-    text-align: center;
-    color: var(--muted);
-    padding: 40px 0;
-    font-size: 14px;
-  }
+  /* Ecrã inteiro: a planta abre maior, com scroll/zoom para ler as salas */
+  .ampliado { position: fixed; inset: 0; z-index: 100; background: rgba(12,35,64,.96); overflow: auto; -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y pinch-zoom; display: none; }
+  .ampliado.aberto { display: block; }
+  .ampliado img { display: block; width: 220%; max-width: none; height: auto; margin: 56px 0 40px; }
+  .ampliado button { position: fixed; top: calc(12px + env(safe-area-inset-top, 0px)); right: 12px; z-index: 101; padding: 9px 16px; border-radius: 999px;
+    border: 1px solid var(--hairline-forte); background: rgba(12,35,64,.95); color: var(--tinta); font: 700 13px Montserrat, sans-serif; cursor: pointer; }
 </style>
 <link rel="stylesheet" href="jenc-estilo.css">
 </head>
 <body>
-  <div class="fundo-foto" aria-hidden="true"></div>
-  <div class="fundo-veu" aria-hidden="true"></div>
+  <div class="fundo-jenc" aria-hidden="true"></div>
+  <div class="fundo-jenc-veu" aria-hidden="true"></div>
 
-  <a class="voltar" href="inicio.html" id="link-voltar" onclick="return voltarInteligente(event)">← Voltar</a>
   <h1>Mapa do recinto</h1>
+  <p class="sub">Escolhe o piso. Toca na planta para ampliar.</p>
 
   <div id="abas-pisos" class="abas-pisos"></div>
+  <div id="mapa-container"></div>
+  <p class="dica">Dentro da planta ampliada, arrasta para te deslocares.</p>
 
-  <div id="mapa-imagem-container"></div>
-
-  <div class="painel-detalhe" id="painel-detalhe">
-    <div class="tag" id="pd-tipo">—</div>
-    <div class="nome" id="pd-nome">—</div>
-    <div class="descricao" id="pd-descricao"></div>
+  <div class="ampliado" id="ampliado">
+    <button type="button" onclick="fecharAmpliado()">Fechar ✕</button>
+    <img id="img-ampliada" alt="">
   </div>
 
-  <div id="secao-sem-pin"></div>
-
-  <div class="carregamento" id="carregamento">A carregar mapa…</div>
-
-  <!-- 1. Biblioteca do Supabase como script normal (não é módulo) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- 2. O teu cliente Supabase -->
   <script src="supabaseClient.js"></script>
 
   <script>
-    // Volta para a página de onde vieste (staff ou participante) em vez
-    // de assumires sempre "inicio.html". Se não houver histórico (ex:
-    // abriste o mapa.html diretamente), cai para trás no href normal.
-    function voltarInteligente(evento) {
-      if (window.history.length > 1) {
-        evento.preventDefault();
-        window.history.back();
-        return false;
-      }
-      return true; // sem histórico: segue o href normal (inicio.html)
-    }
-
-    let pisos = [];
-    let locaisPorPiso = {}; // { piso_id: [ {...}, {...} ] }
-    let pisoSelecionado = null;
-    let localAlvoId = null; // vindo de ?local=
+    // Plantas do ISEG (ficheiros em plantas/). Para trocar uma planta, substitui o ficheiro mantendo o nome.
+    const PLANTAS = [
+      { chave: 'geral', nome: 'Geral',  ficheiro: 'plantas/geral.png' },
+      { chave: '1',     nome: 'Piso 1', ficheiro: 'plantas/piso-1.png' },
+      { chave: '2',     nome: 'Piso 2', ficheiro: 'plantas/piso-2.png' },
+      { chave: '3',     nome: 'Piso 3', ficheiro: 'plantas/piso-3.png' },
+      { chave: '4',     nome: 'Piso 4', ficheiro: 'plantas/piso-4.png' }
+    ];
+    let atual = PLANTAS[0].chave;
 
     init();
 
     async function init() {
       const user = await exigirSessao();
       if (!user) return;
-
-      const params = new URLSearchParams(window.location.search);
-      localAlvoId = params.get('local');
-
-      pisos = await getPisos();
-      // Só mostra pisos que já têm planta (se nenhum tiver, mostra todos).
-      const comImagem = pisos.filter(p => p.imagem_url);
-      if (comImagem.length > 0) pisos = comImagem;
-
-      if (pisos.length === 0) {
-        document.getElementById('carregamento').textContent =
-          'Ainda não há pisos configurados. Contacta a organização.';
-        return;
-      }
-
-      const locais = await getLocais();
-      agruparPorPiso(locais);
-
-      // Se veio de um "Ver no mapa", seleciona o piso desse local.
-      // Senão, o primeiro piso por ordem.
-      if (localAlvoId) {
-        const local = locais.find(l => l.id === localAlvoId);
-        pisoSelecionado = pisos.some(p => p.id === local?.piso_id) ? local.piso_id : pisos[0].id;
-      } else {
-        pisoSelecionado = pisos[0].id;
-      }
-
-      renderAbasPisos();
-      renderPiso(pisoSelecionado);
-
-      document.getElementById('carregamento').style.display = 'none';
+      renderAbas();
+      renderMapa();
     }
 
-    async function getPisos() {
-      const { data, error } = await supabaseClient
-        .from('pisos')
-        .select('id, nome, ordem, imagem_url')
-        .order('ordem', { ascending: true });
-
-      if (error) {
-        console.error('Erro ao ir buscar pisos:', error.message, error.details, error.hint);
-        return [];
-      }
-      return data;
-    }
-
-    async function getLocais() {
-      const { data, error } = await supabaseClient
-        .from('locais')
-        .select('id, nome, tipo, descricao, coordenadas, piso_id')
-        .order('nome', { ascending: true });
-
-      if (error) {
-        console.error('Erro ao ir buscar locais:', error.message, error.details, error.hint);
-        return [];
-      }
-      return data ?? [];
-    }
-
-    function agruparPorPiso(locais) {
-      locaisPorPiso = {};
-      locais.forEach(l => {
-        const chave = l.piso_id ?? 'sem-piso';
-        if (!locaisPorPiso[chave]) locaisPorPiso[chave] = [];
-        locaisPorPiso[chave].push(l);
-      });
-    }
-
-    function renderAbasPisos() {
-      const container = document.getElementById('abas-pisos');
-      container.innerHTML = '';
-      container.style.display = pisos.length > 1 ? 'flex' : 'none';
-
-      pisos.forEach(p => {
+    function renderAbas() {
+      const c = document.getElementById('abas-pisos');
+      c.innerHTML = '';
+      PLANTAS.forEach(p => {
         const aba = document.createElement('div');
-        aba.className = 'aba-piso' + (p.id === pisoSelecionado ? ' ativa' : '');
+        aba.className = 'aba-piso' + (p.chave === atual ? ' ativa' : '');
         aba.textContent = p.nome;
-        aba.onclick = () => {
-          pisoSelecionado = p.id;
-          renderAbasPisos();
-          renderPiso(p.id);
-        };
-        container.appendChild(aba);
+        aba.onclick = () => { if (p.chave === atual) return; atual = p.chave; renderAbas(); renderMapa(); };
+        c.appendChild(aba);
       });
     }
 
-    function renderPiso(pisoId) {
-      const piso = pisos.find(p => p.id === pisoId);
-      const locais = locaisPorPiso[pisoId] ?? [];
-      const comPin = locais.filter(l => l.coordenadas && typeof l.coordenadas.x === 'number' && typeof l.coordenadas.y === 'number');
-      const semPin = locais.filter(l => !comPin.includes(l));
+    function renderMapa() {
+      const planta = PLANTAS.find(p => p.chave === atual);
+      const caixa = document.createElement('div');
+      caixa.className = 'mapa-caixa';
 
-      // Imagem / placeholder
-      const container = document.getElementById('mapa-imagem-container');
+      const img = document.createElement('img');
+      img.alt = `Planta — ${planta.nome}`;
+      img.onerror = () => { caixa.style.cursor = 'default'; caixa.innerHTML = `<div class="aviso">Não foi possível carregar a planta (${planta.ficheiro}).</div>`; };
+      img.src = planta.ficheiro;
+      caixa.appendChild(img);
+      caixa.onclick = () => abrirAmpliado(planta);
+
+      const container = document.getElementById('mapa-container');
       container.innerHTML = '';
-
-      const mapaDiv = document.createElement('div');
-      mapaDiv.className = 'mapa-imagem' + (piso?.imagem_url ? '' : ' sem-imagem');
-      mapaDiv.id = 'mapa-imagem';
-
-      if (piso?.imagem_url) {
-        const img = document.createElement('img');
-        img.src = piso.imagem_url;
-        img.alt = `Planta — ${piso.nome}`;
-        mapaDiv.appendChild(img);
-      } else {
-        const aviso = document.createElement('div');
-        aviso.className = 'aviso-placeholder';
-        aviso.textContent = 'Planta ainda não disponível — os pins já mostram a posição relativa.';
-        mapaDiv.appendChild(aviso);
-      }
-
-      comPin.forEach(local => {
-        const pin = document.createElement('div');
-        pin.className = 'pin' + (local.id === localAlvoId ? ' destaque' : '');
-        pin.style.left = local.coordenadas.x + '%';
-        pin.style.top = local.coordenadas.y + '%';
-        pin.title = local.nome;
-        pin.onclick = () => mostrarDetalhe(local, piso);
-        mapaDiv.appendChild(pin);
-      });
-
-      container.appendChild(mapaDiv);
-
-      // Lista de locais deste piso sem posição ainda definida
-      const secaoSemPin = document.getElementById('secao-sem-pin');
-      secaoSemPin.innerHTML = '';
-      if (semPin.length > 0) {
-        const titulo = document.createElement('h3');
-        titulo.textContent = 'Outros locais neste piso (sem posição no mapa ainda)';
-        secaoSemPin.appendChild(titulo);
-
-        semPin.forEach(local => {
-          const item = document.createElement('div');
-          item.className = 'item-local-sem-pin';
-          item.innerHTML = `
-            <span class="nome">${local.nome}</span>
-            <span class="tipo">${local.tipo ?? ''}</span>
-          `;
-          item.onclick = () => mostrarDetalhe(local, piso);
-          item.style.cursor = 'pointer';
-          secaoSemPin.appendChild(item);
-        });
-      }
-
-      // Se o local-alvo (vindo de "Ver no mapa") está neste piso, mostra já o detalhe
-      if (localAlvoId) {
-        const alvo = locais.find(l => l.id === localAlvoId);
-        if (alvo) {
-          mostrarDetalhe(alvo, piso);
-          document.getElementById('mapa-imagem').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      } else {
-        document.getElementById('painel-detalhe').style.display = 'none';
-      }
+      container.appendChild(caixa);
     }
 
-    function mostrarDetalhe(local, piso) {
-      document.getElementById('pd-tipo').textContent = `${piso?.nome ?? ''}${local.tipo ? ' · ' + local.tipo : ''}`;
-      document.getElementById('pd-nome').textContent = local.nome;
-      document.getElementById('pd-descricao').textContent = local.descricao ?? '';
-      document.getElementById('painel-detalhe').style.display = 'block';
+    function abrirAmpliado(planta) {
+      const img = document.getElementById('img-ampliada');
+      img.src = planta.ficheiro; img.alt = `Planta — ${planta.nome}`;
+      const box = document.getElementById('ampliado');
+      box.classList.add('aberto'); box.scrollTo(0, 0);
+      document.body.style.overflow = 'hidden';
     }
+    function fecharAmpliado() {
+      document.getElementById('ampliado').classList.remove('aberto');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharAmpliado(); });
   </script>
 
   <script src="jenc-ui.js"></script>
-
 </body>
 </html>

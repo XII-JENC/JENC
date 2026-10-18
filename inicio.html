@@ -3,149 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>O Meu Evento — JENC</title>
+<title>Início — JENC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="jenc-tema.css">
 <style>
-  body {
-    padding: 26px 18px 100px;
-    max-width: 480px;
-    margin-inline: auto;
-  }
+  body { padding: 26px 18px 110px; max-width: 480px; margin-inline: auto; }
 
-  /* Cabeçalho: saudação editorial + 2 acessos rápidos (o resto já está na barra) */
-  .cabecalho-inicio {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  .acoes-topo { display: flex; gap: 8px; flex-shrink: 0; margin-top: 2px; }
-
-  /* "Bilhete" da próxima atividade — moldura fina, não um bloco de gradiente */
-  .bilhete-proxima {
-    position: relative;
-    margin-top: 30px;
-    padding: 24px 22px;
-    border-radius: 18px;
-    background: var(--navy-glass);
-    border: 1px solid var(--hairline);
-    overflow: hidden;
-  }
-  .bilhete-proxima svg.ornamento {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    width: 74px;
-    height: 74px;
-    color: var(--gold);
-    opacity: 0.35;
-  }
-  .bilhete-hora {
-    font-size: 34px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: var(--gold-claro);
-    line-height: 1;
-  }
-  .bilhete-proxima h2 {
-    font-size: 19px;
-    font-weight: 700;
-    margin: 10px 0 6px;
-    max-width: 88%;
-  }
-  .bilhete-local {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13.5px;
-    color: var(--mist);
-  }
+  .bilhete-proxima { margin-top: 26px; padding: 22px; }
+  .bilhete-hora { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; color: #E8C873; line-height: 1; }
+  .bilhete-proxima h2 { font-size: 19px; font-weight: 700; margin: 10px 0 6px; max-width: 90%; color: #F6F1E4; }
+  .bilhete-rotulo { font-size: 12px; font-weight: 700; color: #E8C873; margin-bottom: 10px; }
+  .bilhete-local { display: flex; align-items: center; gap: 6px; font-size: 13.5px; color: #C9D5E6; }
   .bilhete-local svg { width: 14px; height: 14px; flex-shrink: 0; }
-  .bilhete-rodape {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-top: 16px;
-  }
-  .pilula-contorno {
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--gold-claro);
-    border: 1px solid var(--hairline-forte);
-    padding: 5px 12px;
-    border-radius: 999px;
-  }
+  .bilhete-rodape { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 16px; }
+  .pilula-contorno { display: inline-block; font-size: 12px; font-weight: 600; color: #E8C873; border: 1px solid rgba(232,200,115,.6); padding: 5px 12px; border-radius: 999px; }
 
-  section { margin-top: 32px; }
+  section { margin-top: 30px; }
 
-  /* Agenda de hoje — linha do tempo, não cartões repetidos */
   .linha-tempo { position: relative; padding-left: 20px; }
-  .linha-tempo::before {
-    content: '';
-    position: absolute;
-    left: 4px; top: 6px; bottom: 6px;
-    width: 1.5px;
-    background: linear-gradient(var(--hairline-forte), var(--hairline));
-  }
-  .item-tempo {
-    position: relative;
-    padding-bottom: 20px;
-    display: flex;
-    gap: 14px;
-    align-items: baseline;
-  }
-  .item-tempo:last-child { padding-bottom: 0; }
-  .item-tempo::before {
-    content: '';
-    position: absolute;
-    left: -20px;
-    top: 4px;
-    width: 9px; height: 9px;
-    border-radius: 50%;
-    background: var(--navy);
-    border: 1.5px solid var(--gold);
-  }
-  .item-tempo .hora-tempo {
-    font-size: 13px; font-weight: 700; color: var(--gold-claro);
-    width: 42px; flex-shrink: 0;
-  }
-  .item-tempo .info-tempo .nome-tempo { font-size: 14.5px; font-weight: 600; color: var(--ivory); }
-  .item-tempo .info-tempo .local-tempo { font-size: 12px; color: var(--mist); margin-top: 2px; }
-  .item-tempo .info-tempo a.ver-mapa-tempo { font-size: 11.5px; color: var(--gold-claro); text-decoration: none; }
+  .linha-tempo::before { content: ''; position: absolute; left: 4px; top: 6px; bottom: 6px; width: 1.5px; background: var(--hairline-forte); }
+  .item-tempo { position: relative; display: flex; gap: 14px; align-items: baseline; }
+  .item-tempo::before { content: ''; position: absolute; left: -20px; top: 4px; width: 9px; height: 9px; border-radius: 50%; background: #0C2340; border: 1.5px solid var(--gold); }
+  .hora-tempo { font-size: 13px; font-weight: 700; color: var(--gold-texto); width: 42px; flex-shrink: 0; }
+  .nome-tempo { font-size: 14.5px; font-weight: 600; }
+  .local-tempo { font-size: 12px; color: var(--suave); margin-top: 2px; }
+  .ver-mais { display: block; margin-top: 16px; }
 
-  .ver-mais { display: block; margin-top: 16px; text-decoration: none; }
 
-  /* O essencial — fila de chips com scroll horizontal, gesto nativo de telemóvel */
-  .tira-chips {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding: 2px 2px 6px;
-    scrollbar-width: none;
-  }
-  .tira-chips::-webkit-scrollbar { display: none; }
-  .chip {
-    flex-shrink: 0;
-    min-width: 130px;
-    padding: 14px 16px;
-    border-radius: 14px;
-    background: var(--navy-glass);
-    border: 1px solid var(--hairline);
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-  .chip svg { width: 17px; height: 17px; color: var(--gold); margin-bottom: 10px; }
-  .chip .rotulo-chip { font-size: 11px; color: var(--mist); margin-bottom: 3px; }
-  .chip .valor-chip { font-size: 14px; font-weight: 700; color: var(--ivory); }
+  /* Tema do ano */
+  .cartao-tema { padding: 4px 2px; }
+  .cartao-tema h2 { font-size: 21px; font-weight: 800; letter-spacing: -.015em; line-height: 1.2; margin: 0 0 14px; }
+  .cartao-tema p { font-size: 14px; line-height: 1.7; color: #D5DFEC; margin: 0 0 12px; }
+  .cartao-tema p:last-child { margin-bottom: 0; }
 
-  .botao-sair-central { display: block; text-align: center; margin: 38px auto 0; }
+  /* Patrocinadores: todos os logos na mesma caixa, para ficarem homogéneos */
+  .grelha-patrocinadores { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .patrocinador { display: grid; place-items: center; height: 92px; padding: 14px; border-radius: 18px; text-decoration: none;
+    background: rgba(255,255,255,.78); border: 1px solid var(--hairline); box-shadow: 0 6px 20px rgba(12,35,64,.06);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: transform .18s, box-shadow .18s, border-color .18s; }
+  .patrocinador:active { transform: scale(.97); border-color: var(--gold); }
+  .patrocinador img { width: auto; height: auto; max-width: 100%; max-height: 62px; object-fit: contain; display: block; }
+  .patrocinador { overflow: hidden; }
+  .patrocinador.fundo-preto { background: #000; border-color: rgba(255,255,255,.12); }
+  .patrocinador.fundo-azul { background: #3581C3; border-color: rgba(255,255,255,.2); }
+  .grelha-patrocinadores .patrocinador:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .nota-patrocinadores { font-size: 12px; color: var(--suave); margin: 12px 2px 0; }
 
-  .estado-carregamento { text-align: center; color: var(--mist); padding: 50px 0; font-size: 14px; }
+  .estado-carregamento { text-align: center; color: var(--suave); padding: 50px 0; font-size: 14px; }
 </style>
 <link rel="stylesheet" href="jenc-estilo.css">
 </head>
@@ -154,23 +59,14 @@
   <div class="fundo-jenc-veu" aria-hidden="true"></div>
 
   <header class="cabecalho-inicio">
-    <div>
-      <h1 id="saudacao" class="titulo-editorial">Olá</h1>
-      <div class="trico-dourado"></div>
-      <p id="subtitulo" class="texto-contexto" style="margin-top:10px;">A carregar o teu evento…</p>
-    </div>
-    <div class="acoes-topo">
-      <a href="perfil.html" class="icone-circular" title="Perfil">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.3" r="3.3"/><path d="M5 20c.9-4 3.6-6.2 7-6.2s6.1 2.2 7 6.2"/></svg>
-      </a>
-    </div>
+    <h1 id="saudacao" class="titulo-editorial">Olá</h1>
+    <p id="subtitulo" class="texto-contexto" style="margin-top:12px;">A carregar o teu evento…</p>
   </header>
 
   <div id="conteudo" style="display:none;">
 
     <div class="bilhete-proxima" id="bloco-proxima-atividade">
-      <svg class="ornamento" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M98 2C60 2 30 26 22 64"/><path d="M98 18C72 18 52 34 46 60"/><circle cx="98" cy="2" r="2.4" fill="currentColor" stroke="none"/></svg>
-      <div id="pa-rotulo" style="font-size:12px;font-weight:700;color:var(--gold-claro);margin-bottom:10px;">A seguir</div>
+      <div class="bilhete-rotulo" id="pa-rotulo">A seguir</div>
       <div class="bilhete-hora" id="pa-hora-grande">—</div>
       <h2 id="pa-nome">A carregar…</h2>
       <div class="bilhete-local">
@@ -179,60 +75,76 @@
       </div>
       <div class="bilhete-rodape">
         <span class="pilula-contorno" id="pa-countdown"></span>
-        <a href="#" id="pa-ver-mapa" style="display:none; font-size:12.5px; font-weight:600; color:var(--gold-claro); text-decoration:none;">Ver no mapa →</a>
       </div>
     </div>
 
-    <section>
-      <div class="titulo-seccao" id="titulo-seguinte">A seguir</div>
+    <section id="seccao-seguinte">
+      <div class="titulo-seccao" id="titulo-seguinte">Depois</div>
       <div class="linha-tempo" id="lista-agenda"></div>
       <a href="agenda.html" class="ligacao-discreta ver-mais">Ver agenda completa →</a>
     </section>
 
-    <section>
-      <div class="titulo-seccao">O essencial</div>
-      <div class="tira-chips">
-        <a href="alojamento.html" class="chip">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v15M15 10h3a1 1 0 0 1 1 1v9M3 20h18M8.5 8h3M8.5 12h3M8.5 16h3"/></svg>
-          <div class="rotulo-chip">Alojamento</div>
-          <div class="valor-chip" id="info-alojamento">—</div>
-        </a>
-        <div class="chip">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="3.5"/><path d="m10.5 12.5 8-8M15.5 7.5l2.5 2.5M13 10l2 2"/></svg>
-          <div class="rotulo-chip">Quarto</div>
-          <div class="valor-chip" id="info-quarto">—</div>
-        </div>
-        <a href="refeicoes.html" class="chip">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v7M9 3v7M7 10a2 2 0 0 1-2-2V3M9 10v11M17 3c-2 0-3 2-3 4.5S16 12 17 12v9"/></svg>
-          <div class="rotulo-chip">Refeição</div>
-          <div class="valor-chip" id="info-refeicao">—</div>
-        </a>
-        <div class="chip">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8 12 4l9.5 4-9.5 4-9.5-4Z"/><path d="M6.5 10.2v4.3c0 1.4 2.5 2.5 5.5 2.5s5.5-1.1 5.5-2.5v-4.3"/></svg>
-          <div class="rotulo-chip">Universidade</div>
-          <div class="valor-chip" id="info-universidade">—</div>
-        </div>
+    <section class="tema-ano">
+      <div class="cartao-tema">
+        <h2>Futuro sobre o Tejo</h2>
+        <p>Entre a História que nos inspira e o futuro que nos desafia, nasce o Futuro sobre o Tejo. Inspirado na expressão «ouro sobre azul», este conceito celebra a identidade de Lisboa e a ambição de um Movimento Júnior que não se limita a acompanhar a mudança: quer liderá-la.</p>
+        <p>O ouro representa a ambição, a responsabilidade e o progresso que nos movem. O azul evoca o Tejo, símbolo da cidade que nos acolhe e elo entre a tradição que nos define e o futuro que queremos construir.</p>
+        <p>No ISEG, onde a tradição se encontra com a inovação, reunimos o Movimento Júnior para transformar ideias em oportunidades, criar ligações e traçar novos caminhos. Porque o futuro não se espera — constrói-se em conjunto.</p>
       </div>
     </section>
 
-    <button id="botao-sair" class="ligacao-discreta botao-sair-central" style="background:none;border:none;cursor:pointer;">Terminar sessão</button>
+    <section>
+      <div class="titulo-seccao">Parceiros</div>
+      <div class="grelha-patrocinadores">
+        <a class="patrocinador" href="https://www.coca-cola.com/pt/pt" target="_blank" rel="noopener noreferrer" aria-label="Coca-Cola — abrir website">
+          <img src="patrocinadores/cocacola.png" alt="Coca-Cola" loading="lazy">
+        </a>
+        <a class="patrocinador" href="https://www.liptonicetea.pt/products.html" target="_blank" rel="noopener noreferrer" aria-label="Lipton — abrir website">
+          <img src="patrocinadores/lipton.png" alt="Lipton" loading="lazy">
+        </a>
+        <a class="patrocinador" href="https://croqueteria.pt/" target="_blank" rel="noopener noreferrer" aria-label="Croqueteria — abrir website">
+          <img src="patrocinadores/croqueteria.png" alt="Croqueteria" loading="lazy">
+        </a>
+        <a class="patrocinador" href="https://pasteisdebelem.pt/es/" target="_blank" rel="noopener noreferrer" aria-label="Pastéis de Belém — abrir website">
+          <img src="patrocinadores/pasteis.png" alt="Pastéis de Belém" loading="lazy">
+        </a>
+        <a class="patrocinador" href="https://spraga.pt/" target="_blank" rel="noopener noreferrer" aria-label="Spraga — abrir website">
+          <img src="patrocinadores/spraga.png" alt="Spraga" loading="lazy">
+        </a>
+        <a class="patrocinador fundo-preto" href="https://unicornfactorylisboa.com/" target="_blank" rel="noopener noreferrer" aria-label="Unicorn Factory Lisboa — abrir website">
+          <img src="patrocinadores/unicorn.png" alt="Unicorn Factory Lisboa" loading="lazy">
+        </a>
+        <a class="patrocinador" href="https://re-food.org/" target="_blank" rel="noopener noreferrer" aria-label="Refood — abrir website">
+          <img src="patrocinadores/refood.png" alt="Refood" loading="lazy">
+        </a>
+        <a class="patrocinador" href="https://www.iseg.ulisboa.pt/" target="_blank" rel="noopener noreferrer" aria-label="ISEG — abrir website">
+          <img src="patrocinadores/iseg.png" alt="ISEG — Lisbon School of Economics &amp; Management" loading="lazy">
+        </a>
+        <a class="patrocinador fundo-azul" href="https://www.jf-estrela.pt/" target="_blank" rel="noopener noreferrer" aria-label="Junta de Freguesia da Estrela — abrir website">
+          <img src="patrocinadores/estrela.png" alt="Junta de Freguesia da Estrela" loading="lazy">
+        </a>
+      </div>
+    </section>
 
   </div>
 
   <div id="estado-carregamento" class="estado-carregamento">A carregar…</div>
 
-  <!-- 1. Carrega a biblioteca do Supabase (versão "script normal", sem módulos) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- 2. Carrega o teu cliente (tem de vir DEPOIS da linha acima) -->
   <script src="supabaseClient.js"></script>
 
-  <!-- 3. A lógica desta página específica -->
   <script>
     init();
 
+    // Data local (YYYY-MM-DD) — evita o desvio de um dia que toISOString() tem perto da meia-noite.
+    function hojeISO() {
+      const d = new Date(), p = n => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+    }
+
     async function init() {
       const user = await exigirSessao();
-      if (!user) return; // exigirSessao já redireciona para login.html
+      if (!user) return;
 
       const participante = await getParticipanteAtual(user);
       if (!participante) {
@@ -242,18 +154,10 @@
       }
 
       renderSaudacao(participante);
-      renderEssencial(participante);
-
-      const atividadesHoje = await getAtividadesDeHoje();
-      renderInicioAgenda(atividadesHoje);
+      renderInicioAgenda(await getAtividadesDeHoje());
 
       document.getElementById('estado-carregamento').style.display = 'none';
       document.getElementById('conteudo').style.display = 'block';
-
-      document.getElementById('botao-sair').addEventListener('click', async () => {
-        await supabaseClient.auth.signOut();
-        window.location.href = 'login.html';
-      });
     }
 
     function renderSaudacao(p) {
@@ -263,26 +167,13 @@
       document.getElementById('subtitulo').textContent = 'Futuro sobre o Tejo. Aqui tens o resumo do teu dia.';
     }
 
-    function renderEssencial(p) {
-      document.getElementById('info-alojamento').textContent = p.nome_alojamento ?? '—';
-      document.getElementById('info-quarto').textContent = p.numero_quarto ?? '—';
-      document.getElementById('info-refeicao').textContent = p.turno_refeicao ?? '—';
-      document.getElementById('info-universidade').textContent = p.universidade ?? '—';
-    }
-
     async function getAtividadesDeHoje() {
-      const hoje = new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
-
       const { data, error } = await supabaseClient
         .from('atividades')
-        .select('id, nome, data, hora_inicio, hora_fim, local, local_id')
-        .eq('data', hoje)
+        .select('id, nome, data, hora_inicio, hora_fim, local')
+        .eq('data', hojeISO())
         .order('hora_inicio', { ascending: true });
-
-      if (error) {
-        console.error('Erro ao ir buscar atividades:', error);
-        return [];
-      }
+      if (error) { console.error('Erro ao ir buscar atividades:', error); return []; }
       return data;
     }
 
@@ -295,7 +186,6 @@
       const seguinte = atividades.find(a => ini(a) > agora);
       const destaque = atual ?? seguinte;
 
-      // Em baixo: só a atividade seguinte (ou, se nada está a decorrer, a que vem depois da destacada).
       let extra = [];
       if (atual && seguinte) extra = [seguinte];
       else if (!atual && seguinte) extra = atividades.slice(atividades.indexOf(seguinte) + 1, atividades.indexOf(seguinte) + 2);
@@ -306,7 +196,6 @@
 
     function renderDestaque(a, aDecorrer, agora) {
       const elCountdown = document.getElementById('pa-countdown');
-      const elLinkMapa = document.getElementById('pa-ver-mapa');
 
       if (!a) {
         document.getElementById('pa-rotulo').textContent = 'Hoje';
@@ -314,31 +203,22 @@
         document.getElementById('pa-nome').textContent = 'Até amanhã';
         document.getElementById('pa-local').textContent = 'Sem mais atividades hoje';
         elCountdown.style.display = 'none';
-        elLinkMapa.style.display = 'none';
         return;
       }
 
       document.getElementById('pa-rotulo').textContent = aDecorrer ? 'A decorrer agora' : 'A seguir';
-      document.getElementById('pa-hora-grande').textContent = a.hora_inicio?.slice(0,5) ?? '--:--';
+      document.getElementById('pa-hora-grande').textContent = a.hora_inicio?.slice(0, 5) ?? '--:--';
       document.getElementById('pa-nome').textContent = a.nome;
       document.getElementById('pa-local').textContent = a.local ?? 'Local a anunciar';
 
       const minutos = Math.round((new Date(`${a.data}T${a.hora_inicio}`) - agora) / 60000);
       elCountdown.style.display = 'inline-block';
       elCountdown.textContent = aDecorrer
-        ? (a.hora_fim ? `Até às ${a.hora_fim.slice(0,5)}` : 'A decorrer')
-        : minutos < 60 ? `Começa em ${Math.max(minutos, 1)} min` : `Começa às ${a.hora_inicio.slice(0,5)}`;
-
-      if (a.local_id) {
-        elLinkMapa.href = `mapa.html?local=${a.local_id}`;
-        elLinkMapa.style.display = 'inline-block';
-      } else {
-        elLinkMapa.style.display = 'none';
-      }
+        ? (a.hora_fim ? `Até às ${a.hora_fim.slice(0, 5)}` : 'A decorrer')
+        : minutos < 60 ? `Começa em ${Math.max(minutos, 1)} min` : `Começa às ${a.hora_inicio.slice(0, 5)}`;
     }
 
     function renderListaSeguinte(lista) {
-      const secao = document.getElementById('titulo-seguinte').parentElement;
       const container = document.getElementById('lista-agenda');
       container.innerHTML = '';
       if (lista.length === 0) {
@@ -350,11 +230,10 @@
         const item = document.createElement('div');
         item.className = 'item-tempo';
         item.innerHTML = `
-          <div class="hora-tempo">${a.hora_inicio?.slice(0,5) ?? '--:--'}</div>
-          <div class="info-tempo">
+          <div class="hora-tempo">${a.hora_inicio?.slice(0, 5) ?? '--:--'}</div>
+          <div>
             <div class="nome-tempo">${a.nome}</div>
             <div class="local-tempo">${a.local ?? 'Local a anunciar'}</div>
-            ${a.local_id ? `<a href="mapa.html?local=${a.local_id}" class="ver-mapa-tempo">Ver no mapa →</a>` : ''}
           </div>`;
         container.appendChild(item);
       });
@@ -362,6 +241,5 @@
   </script>
 
   <script src="jenc-ui.js"></script>
-
 </body>
 </html>

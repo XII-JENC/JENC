@@ -7,15 +7,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
 <style>
-  :root{--navy:#0C2340;--gold:#BD8C1C;--gold-claro:#E8C873;--ivory:#F6F1E4;--mist:#93A6BF;--erro:#E8877A;--sucesso:#8FCB9B;--hairline:rgba(189,140,28,.3)}
+  :root{--navy:#0C2340;--gold:#BD8C1C;--gold-claro:#E8C873;--ivory:#F6F1E4;--mist:#A9BAD0;--erro:#E8877A;--sucesso:#8FCB9B;--hairline:rgba(189,140,28,.5)}
   *{box-sizing:border-box}
-  html{background:var(--navy)}
+  html{background:#0C2340}
   body{margin:0;font-family:'Montserrat','Segoe UI',system-ui,sans-serif;background:transparent;color:var(--ivory)}
-  .fundo-jenc{position:fixed;inset:0;z-index:-2;background:var(--navy) url("jenc-fundo.png") center top/cover no-repeat}
-  .fundo-jenc-veu{position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(12,35,64,.35),rgba(12,35,64,.6))}
+  .fundo-jenc{position:fixed;inset:0;z-index:-2;background:#0C2340 url("jenc-fundo.png") center top/cover no-repeat}
+  .fundo-jenc-veu{position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(12,35,64,.1),rgba(12,35,64,.3))}
   .campo-linha{margin-bottom:16px}
   .campo-linha label{display:block;font-size:12px;font-weight:600;color:var(--mist);margin-bottom:6px}
-  .campo-linha input{width:100%;padding:14px 16px;font:500 15px Montserrat,sans-serif;color:var(--ivory);background:rgba(22,55,95,.5);border:1px solid var(--hairline);border-radius:12px}
+  .campo-linha input{width:100%;padding:14px 16px;font:500 15px Montserrat,sans-serif;color:var(--ivory);background:rgba(12,35,64,.55);border:1px solid var(--hairline);border-radius:14px}
   .campo-linha input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(189,140,28,.18)}
   .botao-dourado{width:100%;padding:15px;margin-top:6px;border:0;border-radius:12px;background:linear-gradient(135deg,#C4931F,#E8C873);color:var(--navy);font:700 15px Montserrat,sans-serif;cursor:pointer}
   .botao-dourado:disabled{opacity:.6}
@@ -59,6 +59,8 @@
   .mensagem.erro { color: var(--erro); }
   .mensagem.sucesso { color: var(--sucesso); }
 </style>
+<link rel="stylesheet" href="jenc-estilo.css">
+<style>.botao-dourado{border-radius:999px}h1.titulo-forma{font-size:18px;margin:0}.caixa{padding:26px 22px;border-radius:24px;background:rgba(22,55,95,.6);border:1px solid rgba(189,140,28,.5);box-shadow:0 12px 34px rgba(0,0,0,.3);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}.logo-wrap{margin-bottom:22px!important}.logo-wrap img{width:150px!important;filter:brightness(0) invert(1)}.sub{margin-bottom:24px!important}</style>
 </head>
 <body>
 
@@ -67,10 +69,10 @@
 
   <div class="caixa">
     <div class="logo-wrap">
-      <img src="jenc-logo.png" alt="XII JENC — Junior Entrepreneurs National Congress 2026">
+      <img src="jenc-logo-azul.png" alt="XII JENC — Junior Entrepreneurs National Congress 2026">
     </div>
 
-    <h1 class="titulo-forma">Entra na tua conta</h1>
+    <div style="text-align:center;margin-bottom:8px;"><h1 class="titulo-forma">Entra na tua conta</h1></div>
     <p class="sub">Participante ou equipa — usa o email que recebeste.</p>
 
     <div class="campo-linha">

@@ -8,275 +8,54 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="jenc-tema.css">
 <style>
-  :root {
-    --bg: #0C2340;
-    --card: rgba(22, 55, 95, 0.46);
-    --accent: #BD8C1C;
-    --text: #F6F1E4;
-    --muted: #93A6BF;
-    --border: rgba(189, 140, 28, 0.24);
-  }
-  * { box-sizing: border-box; }
-  .fundo-foto {
-    position: fixed; inset: 0; z-index: -2;
-    background-image: url("jenc-fundo.png");
-    background-size: 640px auto;
-    background-position: top center;
-    background-repeat: repeat;
-  }
-  .fundo-veu {
-    position: fixed; inset: 0; z-index: -1;
-    background: linear-gradient(180deg, rgba(12,35,64,0.55) 0%, rgba(12,35,64,0.72) 55%, rgba(12,35,64,0.88) 100%);
-  }
-  .card, [class*="card"], [class*="item-"], [class*="cartao"], [class*="aba"], .painel-detalhe, [class*="campo"], input, .rotulo-funcao {
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-  }
-  h1, h2 { font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: -0.015em; }
-  body {
-    margin: 0;
-    font-family: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    padding: 20px 16px 90px;
-    max-width: 520px;
-    margin-inline: auto;
-  }
-  header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 18px; }
+  body { padding: 22px 14px 110px; max-width: 480px; margin-inline: auto; }
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 16px; }
   h1 { font-size: 22px; margin: 0; }
-  .sub { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
-  .nav-staff { display: flex; gap: 8px; }
-  .nav-staff a, .nav-staff button {
-    background:none; border:1px solid var(--border); color:var(--muted);
-    font-size:14px; padding:6px 10px; border-radius:8px; cursor:pointer; text-decoration:none;
-  }
-
-  .abas-dias {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    margin-bottom: 18px;
-  }
-  .aba-dia {
-    flex-shrink: 0;
-    padding: 10px 16px;
-    border-radius: 10px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .aba-dia.ativa { background: var(--accent); color: #0C2340; border-color: var(--accent); }
-
-  .card-atividade {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 12px;
-  }
-  .cabecalho-card { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 4px; }
-  .cabecalho-card .nome { font-size: 15px; font-weight: 700; }
-  .hora-card { font-size: 13px; font-weight: 700; color: var(--accent); white-space: nowrap; }
-
-  .estado-badge {
-    font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px;
-    display: inline-block; margin-bottom: 8px;
-  }
-  .estado-badge.agora { background: #BD8C1C30; color: var(--accent); }
-  .estado-badge.seguinte { background: #7CD99230; color: #7CD992; }
-
-  .grid-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-top: 10px;
-  }
-  .info-item { font-size: 12px; }
-  .info-item .rotulo { color: var(--muted); margin-bottom: 2px; }
-  .info-item .valor { font-weight: 600; }
-
-  .link-mapa {
-    display: inline-block;
-    margin-top: 10px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--accent);
-    text-decoration: none;
-  }
-
-  .vazio, .estado-carregamento { text-align: center; color: var(--muted); padding: 40px 0; font-size: 14px; }
+  .sub { color: var(--suave); font-size: 13px; margin: 4px 0 0; }
+  button.sair { background: none; border: 1px solid var(--hairline); color: var(--suave); font-size: 12px; padding: 6px 10px; border-radius: 8px; cursor: pointer; }
 </style>
 <link rel="stylesheet" href="jenc-estilo.css">
 </head>
 <body>
-  <div class="fundo-foto" aria-hidden="true"></div>
-  <div class="fundo-veu" aria-hidden="true"></div>
+  <div class="fundo-jenc" aria-hidden="true"></div>
+  <div class="fundo-jenc-veu" aria-hidden="true"></div>
 
   <header>
     <div>
       <h1>Atividades</h1>
-      <p class="sub">Consulta rápida do programa — sala, capacidade e responsável.</p>
+      <p class="sub">Toca numa atividade para ver sala, capacidade e responsável.</p>
     </div>
-    <div class="nav-staff">
-      <a href="staff-inicio.html" title="Início"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5M6 10v9a1 1 0 0 0 1 1h3v-6h4v6h3a1 1 0 0 0 1-1v-9"/></svg></a>
-      <button onclick="terminarSessaoStaff()">Sair</button>
-    </div>
+    <button class="sair" onclick="terminarSessaoStaff()">Sair</button>
   </header>
 
   <div class="abas-dias" id="abas-dias"></div>
-  <div id="lista-atividades"></div>
+  <div id="area-calendario"></div>
+  <div id="detalhe-atividade"></div>
+  <div class="carregamento-agenda" id="carregamento">A carregar atividades…</div>
 
-  <div class="estado-carregamento" id="carregamento">A carregar atividades…</div>
-
-  <!-- 1. Biblioteca do Supabase como script normal (não é módulo) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- 2. O teu cliente Supabase -->
   <script src="supabaseClient.js"></script>
-
+  <script src="jenc-agenda.js"></script>
   <script>
-    let atividadesPorDia = {};
-    let diaSelecionado = null;
-
-    init();
-
-    async function init() {
-      const user = await exigirSessaoStaff();
-      if (!user) return;
-
-      const staff = await getStaffAtual(user);
-      if (!staff) {
-        document.getElementById('carregamento').textContent = 'Conta sem acesso de staff.';
-        return;
-      }
-
-      const atividades = await getTodasAtividades();
-
-      if (atividades.length === 0) {
-        document.getElementById('carregamento').textContent = 'Ainda não há atividades publicadas.';
-        return;
-      }
-
-      agruparPorDia(atividades);
-      renderAbasDias();
-
-      const hoje = new Date().toISOString().split('T')[0];
-      diaSelecionado = atividadesPorDia[hoje] ? hoje : Object.keys(atividadesPorDia)[0];
-
-      renderListaDoDia(diaSelecionado);
-      document.getElementById('carregamento').style.display = 'none';
-    }
-
-    async function getTodasAtividades() {
-      const { data, error } = await supabaseClient
-        .from('atividades')
-        .select('id, nome, data, hora_inicio, hora_fim, local, capacidade, staff_responsavel, local_id')
-        .order('data', { ascending: true })
-        .order('hora_inicio', { ascending: true });
-
-      if (error) {
-        console.error('Erro ao ir buscar atividades:', error.message, error.details, error.hint);
-        return [];
-      }
-      return data;
-    }
-
-    function agruparPorDia(atividades) {
-      atividadesPorDia = {};
-      atividades.forEach(a => {
-        if (!atividadesPorDia[a.data]) atividadesPorDia[a.data] = [];
-        atividadesPorDia[a.data].push(a);
-      });
-    }
-
-    function formatarRotuloDia(dataISO) {
-      const hoje = new Date().toISOString().split('T')[0];
-      const d = new Date(dataISO + 'T00:00:00');
-      const rotulo = d.toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' });
-      return dataISO === hoje ? 'Hoje' : rotulo;
-    }
-
-    function renderAbasDias() {
-      const container = document.getElementById('abas-dias');
-      container.innerHTML = '';
-
-      Object.keys(atividadesPorDia).forEach(dataISO => {
-        const aba = document.createElement('div');
-        aba.className = 'aba-dia' + (dataISO === diaSelecionado ? ' ativa' : '');
-        aba.textContent = formatarRotuloDia(dataISO);
-        aba.onclick = () => {
-          diaSelecionado = dataISO;
-          renderAbasDias();
-          renderListaDoDia(dataISO);
-        };
-        container.appendChild(aba);
-      });
-    }
-
-    function renderListaDoDia(dataISO) {
-      const container = document.getElementById('lista-atividades');
-      container.innerHTML = '';
-
-      const atividades = atividadesPorDia[dataISO] || [];
-      if (atividades.length === 0) {
-        container.innerHTML = '<div class="vazio">Sem atividades neste dia.</div>';
-        return;
-      }
-
-      const agora = new Date();
-      const hojeISO = agora.toISOString().split('T')[0];
-
-      let proximaId = null;
-      if (dataISO === hojeISO) {
-        const futura = atividades.find(a => new Date(`${a.data}T${a.hora_inicio}`) > agora);
-        proximaId = futura ? futura.id : null;
-      }
-
-      atividades.forEach(a => {
-        const inicio = new Date(`${a.data}T${a.hora_inicio}`);
-        const fim = a.hora_fim ? new Date(`${a.data}T${a.hora_fim}`) : null;
-        const aDecorrer = dataISO === hojeISO && fim && agora >= inicio && agora <= fim;
-
-        const card = document.createElement('div');
-        card.className = 'card-atividade';
-        card.innerHTML = `
-          ${aDecorrer ? '<div class="estado-badge agora">Agora</div>' : ''}
-          ${!aDecorrer && a.id === proximaId ? '<div class="estado-badge seguinte">A seguir</div>' : ''}
-          <div class="cabecalho-card">
-            <div class="nome">${a.nome}</div>
-            <div class="hora-card">${a.hora_inicio?.slice(0,5) ?? '--:--'}${a.hora_fim ? ' – ' + a.hora_fim.slice(0,5) : ''}</div>
-          </div>
-          <div class="grid-info">
-            <div class="info-item">
-              <div class="rotulo">Local</div>
-              <div class="valor">${a.local ?? '—'}</div>
-            </div>
-            <div class="info-item">
-              <div class="rotulo">Capacidade</div>
-              <div class="valor">${a.capacidade ?? '—'}</div>
-            </div>
-            <div class="info-item">
-              <div class="rotulo">Responsável</div>
-              <div class="valor">${a.staff_responsavel ?? '—'}</div>
-            </div>
-          </div>
-          ${a.local_id ? `<a class="link-mapa" href="mapa.html?local=${a.local_id}">Ver no mapa →</a>` : ''}
-        `;
-        container.appendChild(card);
-      });
-    }
+    (async () => {
+      const c = document.getElementById('carregamento');
+      try {
+        const user = await exigirSessaoStaff();
+        if (!user) return;
+        const staff = await getStaffAtual(user); // staff ou logística
+        if (!staff) { c.textContent = 'Conta sem acesso de staff.'; return; }
+        if (typeof JencAgenda === 'undefined') { c.textContent = 'Erro: o ficheiro jenc-agenda.js não foi encontrado (tem de estar na mesma pasta).'; return; }
+        JencAgenda.montar({ detalhes: true });
+      } catch (e) { console.error(e); c.textContent = 'Erro: ' + e.message; }
+    })();
 
     async function terminarSessaoStaff() {
       await supabaseClient.auth.signOut();
+      try { sessionStorage.clear(); } catch (e) {}
       window.location.href = 'login.html';
     }
   </script>
 
   <script src="jenc-ui.js"></script>
-
 </body>
 </html>

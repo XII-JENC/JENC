@@ -8,246 +8,36 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="jenc-tema.css">
 <style>
-  :root {
-    --bg: #0C2340;
-    --card: rgba(22, 55, 95, 0.46);
-    --accent: #BD8C1C;
-    --text: #F6F1E4;
-    --muted: #93A6BF;
-    --border: rgba(189, 140, 28, 0.24);
-  }
-  * { box-sizing: border-box; }
-  .fundo-foto {
-    position: fixed; inset: 0; z-index: -2;
-    background-image: url("jenc-fundo.png");
-    background-size: 640px auto;
-    background-position: top center;
-    background-repeat: repeat;
-  }
-  .fundo-veu {
-    position: fixed; inset: 0; z-index: -1;
-    background: linear-gradient(180deg, rgba(12,35,64,0.55) 0%, rgba(12,35,64,0.72) 55%, rgba(12,35,64,0.88) 100%);
-  }
-  .card, [class*="card"], [class*="item-"], [class*="cartao"], [class*="aba"], .painel-detalhe, input {
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-  }
-  h1, h2 { font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: -0.015em; }
-  body {
-    margin: 0;
-    font-family: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    padding: 20px 16px 90px;
-    max-width: 480px;
-    margin-inline: auto;
-  }
-  .voltar {
-    display: inline-block;
-    color: var(--muted);
-    font-size: 13px;
-    text-decoration: none;
-    margin-bottom: 14px;
-  }
-  h1 { font-size: 22px; margin: 0 0 18px; }
-
-  .abas-dias {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    margin-bottom: 20px;
-  }
-  .aba-dia {
-    flex-shrink: 0;
-    padding: 10px 16px;
-    border-radius: 10px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .aba-dia.ativa {
-    background: var(--accent);
-    color: #0C2340;
-    border-color: var(--accent);
-  }
-
-  .item-atividade {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 10px;
-    display: flex;
-    gap: 14px;
-  }
-  .item-atividade .hora {
-    font-weight: 600;
-    font-size: 14px;
-    width: 48px;
-    flex-shrink: 0;
-    color: var(--accent);
-  }
-  .item-atividade .info .nome { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
-  .item-atividade .info .local { font-size: 12px; color: var(--muted); }
-  .item-atividade .estado {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 999px;
-    align-self: flex-start;
-    margin-left: auto;
-  }
-  .estado.agora { background: #BD8C1C30; color: var(--accent); }
-  .estado.seguinte { background: #7CD99230; color: #7CD992; }
-
-  .vazio, .carregamento {
-    text-align: center;
-    color: var(--muted);
-    padding: 40px 0;
-    font-size: 14px;
-  }
+  body { padding: 22px 14px 110px; max-width: 480px; margin-inline: auto; }
+  h1 { font-size: 22px; margin: 0 0 16px; }
 </style>
 <link rel="stylesheet" href="jenc-estilo.css">
 </head>
 <body>
-  <div class="fundo-foto" aria-hidden="true"></div>
-  <div class="fundo-veu" aria-hidden="true"></div>
+  <div class="fundo-jenc" aria-hidden="true"></div>
+  <div class="fundo-jenc-veu" aria-hidden="true"></div>
 
-  <a class="voltar" href="inicio.html">← Início</a>
-  <h1>Agenda completa</h1>
+  <h1>Agenda</h1>
 
   <div class="abas-dias" id="abas-dias"></div>
-  <div id="lista-atividades"></div>
-  <div class="carregamento" id="carregamento">A carregar agenda…</div>
+  <div id="area-calendario"></div>
+  <div class="carregamento-agenda" id="carregamento">A carregar agenda…</div>
 
-  <!-- 1. Biblioteca do Supabase como script normal (não é módulo) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- 2. O teu cliente Supabase -->
   <script src="supabaseClient.js"></script>
-
+  <script src="jenc-agenda.js"></script>
   <script>
-    let atividadesPorDia = {}; // { "2026-06-14": [ {...}, {...} ], ... }
-    let diaSelecionado = null;
-
-    init();
-
-    async function init() {
-      const user = await exigirSessao();
-      if (!user) return;
-
-      const atividades = await getTodasAtividades();
-
-      if (atividades.length === 0) {
-        document.getElementById('carregamento').textContent = 'Ainda não há atividades publicadas.';
-        return;
-      }
-
-      agruparPorDia(atividades);
-      renderAbasDias();
-
-      // Seleciona por defeito: o dia de hoje, se existir agenda para hoje;
-      // caso contrário, o primeiro dia disponível.
-      const hoje = new Date().toISOString().split('T')[0];
-      diaSelecionado = atividadesPorDia[hoje] ? hoje : Object.keys(atividadesPorDia)[0];
-
-      renderListaDoDia(diaSelecionado);
-      document.getElementById('carregamento').style.display = 'none';
-    }
-
-    async function getTodasAtividades() {
-      const { data, error } = await supabaseClient
-        .from('atividades')
-        .select('id, nome, data, hora_inicio, hora_fim, local, local_id')
-        .order('data', { ascending: true })
-        .order('hora_inicio', { ascending: true });
-
-      if (error) {
-        console.error('Erro ao ir buscar atividades:', error.message, error.details, error.hint);
-        return [];
-      }
-      return data;
-    }
-
-    function agruparPorDia(atividades) {
-      atividadesPorDia = {};
-      atividades.forEach(a => {
-        if (!atividadesPorDia[a.data]) atividadesPorDia[a.data] = [];
-        atividadesPorDia[a.data].push(a);
-      });
-    }
-
-    function formatarRotuloDia(dataISO) {
-      const hoje = new Date().toISOString().split('T')[0];
-      const d = new Date(dataISO + 'T00:00:00');
-      const rotulo = d.toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' });
-      return dataISO === hoje ? `Hoje` : rotulo;
-    }
-
-    function renderAbasDias() {
-      const container = document.getElementById('abas-dias');
-      container.innerHTML = '';
-
-      Object.keys(atividadesPorDia).forEach(dataISO => {
-        const aba = document.createElement('div');
-        aba.className = 'aba-dia' + (dataISO === diaSelecionado ? ' ativa' : '');
-        aba.textContent = formatarRotuloDia(dataISO);
-        aba.onclick = () => {
-          diaSelecionado = dataISO;
-          renderAbasDias();
-          renderListaDoDia(dataISO);
-        };
-        container.appendChild(aba);
-      });
-    }
-
-    function renderListaDoDia(dataISO) {
-      const container = document.getElementById('lista-atividades');
-      container.innerHTML = '';
-
-      const atividades = atividadesPorDia[dataISO] || [];
-      if (atividades.length === 0) {
-        container.innerHTML = '<div class="vazio">Sem atividades neste dia.</div>';
-        return;
-      }
-
-      const agora = new Date();
-      const hojeISO = agora.toISOString().split('T')[0];
-
-      // Encontra a próxima atividade (só faz sentido destacar isto no dia de hoje)
-      let proximaId = null;
-      if (dataISO === hojeISO) {
-        const futura = atividades.find(a => new Date(`${a.data}T${a.hora_inicio}`) > agora);
-        proximaId = futura ? futura.id : null;
-      }
-
-      atividades.forEach(a => {
-        const inicio = new Date(`${a.data}T${a.hora_inicio}`);
-        const fim = a.hora_fim ? new Date(`${a.data}T${a.hora_fim}`) : null;
-        const aDecorrer = dataISO === hojeISO && fim && agora >= inicio && agora <= fim;
-
-        const item = document.createElement('div');
-        item.className = 'item-atividade';
-        item.innerHTML = `
-          <div class="hora">${a.hora_inicio?.slice(0,5) ?? '--:--'}</div>
-          <div class="info">
-            <div class="nome">${a.nome}</div>
-            <div class="local"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21Z"/><circle cx="12" cy="9.3" r="2.3"/></svg> ${a.local ?? 'Local a anunciar'}</div>
-            ${a.local_id ? `<a href="mapa.html?local=${a.local_id}" style="font-size:12px; color:var(--accent); text-decoration:none;">Ver no mapa →</a>` : ''}
-          </div>
-          ${aDecorrer ? '<div class="estado agora">Agora</div>' : ''}
-          ${!aDecorrer && a.id === proximaId ? '<div class="estado seguinte">A seguir</div>' : ''}
-        `;
-        container.appendChild(item);
-      });
-    }
+    (async () => {
+      const c = document.getElementById('carregamento');
+      try {
+        const user = await exigirSessao();
+        if (!user) return;
+        if (typeof JencAgenda === 'undefined') { c.textContent = 'Erro: o ficheiro jenc-agenda.js não foi encontrado (tem de estar na mesma pasta que agenda.html).'; return; }
+        JencAgenda.montar();
+      } catch (e) { console.error(e); c.textContent = 'Erro: ' + e.message; }
+    })();
   </script>
 
   <script src="jenc-ui.js"></script>
-
 </body>
 </html>

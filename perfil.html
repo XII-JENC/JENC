@@ -8,123 +8,81 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="jenc-tema.css">
 <style>
-  :root {
-    --bg: #0C2340;
-    --card: rgba(22, 55, 95, 0.46);
-    --accent: #BD8C1C;
-    --text: #F6F1E4;
-    --muted: #93A6BF;
-    --border: rgba(189, 140, 28, 0.24);
-  }
-  * { box-sizing: border-box; }
-  .fundo-foto {
-    position: fixed; inset: 0; z-index: -2;
-    background-image: url("jenc-fundo.png");
-    background-size: 640px auto;
-    background-position: top center;
-    background-repeat: repeat;
-  }
-  .fundo-veu {
-    position: fixed; inset: 0; z-index: -1;
-    background: linear-gradient(180deg, rgba(12,35,64,0.55) 0%, rgba(12,35,64,0.72) 55%, rgba(12,35,64,0.88) 100%);
-  }
-  .card, [class*="card"], [class*="item-"], [class*="cartao"], [class*="aba"], .painel-detalhe, input {
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-  }
-  h1, h2 { font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: -0.015em; }
-  body {
-    margin: 0;
-    font-family: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    padding: 20px 16px 90px;
-    max-width: 480px;
-    margin-inline: auto;
-  }
-  .voltar {
-    display: inline-block;
-    color: var(--muted);
-    font-size: 13px;
-    text-decoration: none;
-    margin-bottom: 14px;
-  }
-  h1 { font-size: 22px; margin: 0 0 20px; }
+  body { padding: 24px 16px 110px; max-width: 480px; margin-inline: auto; }
+  .topo { text-align: center; margin-bottom: 22px; }
+  .avatar { width: 84px; height: 84px; border-radius: 50%; margin: 0 auto 12px; display: grid; place-items: center;
+    background: var(--navy); color: var(--gold-claro); font-size: 28px; font-weight: 800; border: 2px solid var(--gold);
+    box-shadow: 0 0 0 5px rgba(189,140,28,.2); }
+  .nome-principal { font-size: 20px; font-weight: 800; }
+  .codigo { font-size: 12.5px; color: var(--suave); margin-top: 2px; font-weight: 600; letter-spacing: .5px; }
 
-  .avatar {
-    width: 72px; height: 72px; border-radius: 50%;
-    background: var(--accent);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 26px; font-weight: 700; color: #0C2340;
-    margin: 0 auto 10px;
-  }
-  .nome-principal {
-    text-align: center; font-size: 18px; font-weight: 600; margin-bottom: 2px;
-  }
-  .subtitulo-principal {
-    text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 24px;
-  }
+  .cartao-pacote { padding: 20px 22px; margin-bottom: 22px; }
+  .cartao-pacote .tag { font-size: 12px; font-weight: 700; }
+  .cartao-pacote .nome-pacote { font-size: 26px; font-weight: 800; margin: 4px 0 2px; }
+  .cartao-pacote .desc-pacote { font-size: 13px; color: #C9D5E6; line-height: 1.5; }
 
-  .campo {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 16px;
-    margin-bottom: 10px;
-  }
-  .campo .rotulo { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-  .campo .valor { font-size: 14px; font-weight: 500; }
-  .campo a.valor { color: var(--accent); text-decoration: none; }
+  .grupo { margin-top: 24px; }
+  .grupo .titulo-seccao { margin-bottom: 12px; }
+  .campo { padding: 12px 16px; margin-bottom: 10px; display: block; text-decoration: none; color: inherit; }
+  .campo .rotulo { font-size: 11px; color: var(--suave); margin-bottom: 3px; font-weight: 600; }
+  .campo .valor { font-size: 14.5px; font-weight: 600; }
+  .campo.ligacao { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .campo.ligacao .seta { color: var(--gold-texto); font-weight: 700; }
+  .grelha2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grelha2 .campo { margin-bottom: 0; }
+  a.valor { color: var(--gold-texto); text-decoration: none; word-break: break-all; }
 
-  .botao-perigo {
-    display: block;
-    width: 100%;
-    margin-top: 26px;
-    padding: 13px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: none;
-    color: #FF6B6B;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .estado { text-align: center; color: var(--muted); padding: 40px 0; font-size: 14px; }
+  .botao-perigo { display: block; width: 100%; margin-top: 30px; padding: 14px; font: 700 14px Montserrat, sans-serif; cursor: pointer; }
+  .estado { text-align: center; color: var(--suave); padding: 40px 0; font-size: 14px; }
 </style>
 <link rel="stylesheet" href="jenc-estilo.css">
 </head>
 <body>
-  <div class="fundo-foto" aria-hidden="true"></div>
-  <div class="fundo-veu" aria-hidden="true"></div>
-
-  <a class="voltar" href="inicio.html">← Início</a>
-  <h1>Perfil</h1>
+  <div class="fundo-jenc" aria-hidden="true"></div>
+  <div class="fundo-jenc-veu" aria-hidden="true"></div>
 
   <div id="conteudo" style="display:none;">
-    <div class="avatar" id="avatar-iniciais">—</div>
-    <div class="nome-principal" id="nome-principal">—</div>
-    <div class="subtitulo-principal" id="subtitulo-principal">—</div>
+    <div class="topo">
+      <div class="avatar" id="avatar-iniciais">—</div>
+      <h1 class="nome-principal" id="nome-principal" style="font-size:20px;">—</h1>
+      <div class="codigo" id="subtitulo-principal"></div>
+    </div>
 
-    <div class="campo">
-      <div class="rotulo">Universidade</div>
-      <div class="valor" id="valor-universidade">—</div>
+    <div class="cartao-principal cartao-pacote">
+      <div class="tag">O TEU PACOTE</div>
+      <div class="nome-pacote" id="pacote-nome">—</div>
+      <div class="desc-pacote" id="pacote-desc"></div>
     </div>
-    <div class="campo">
-      <div class="rotulo">Júnior Empresa</div>
-      <div class="valor" id="valor-junior-empresa">—</div>
+
+    <div class="grupo">
+      <div class="titulo-seccao">O meu evento</div>
+      <a class="campo ligacao" id="bloco-alojamento" href="alojamento.html">
+        <div><div class="rotulo">Alojamento</div><div class="valor" id="valor-alojamento">—</div></div>
+        <span class="seta">→</span>
+      </a>
+      <div class="grelha2" id="grelha-quarto-turno" style="margin-bottom:10px;">
+        <div class="campo" id="campo-quarto"><div class="rotulo">Quarto</div><div class="valor" id="valor-quarto">—</div></div>
+        <a class="campo ligacao" href="refeicoes.html" style="margin-bottom:0;">
+          <div><div class="rotulo">Turno de refeição</div><div class="valor" id="valor-turno">—</div></div>
+        </a>
+      </div>
     </div>
-    <div class="campo">
-      <div class="rotulo">Email</div>
-      <div class="valor" id="valor-email">—</div>
+
+    <div class="grupo">
+      <div class="titulo-seccao">Os meus dados</div>
+      <div class="campo"><div class="rotulo">Universidade</div><div class="valor" id="valor-universidade">—</div></div>
+      <div class="campo"><div class="rotulo">Júnior Empresa</div><div class="valor" id="valor-junior-empresa">—</div></div>
+      <div class="campo"><div class="rotulo">Email</div><div class="valor" id="valor-email" style="word-break:break-all;">—</div></div>
+      <div class="campo"><div class="rotulo">Restrições alimentares</div><div class="valor" id="valor-restricoes">—</div></div>
+      <div class="campo"><div class="rotulo">LinkedIn</div><div class="valor"><a id="valor-linkedin" class="valor" href="#" target="_blank" rel="noopener noreferrer">—</a></div></div>
     </div>
-    <div class="campo">
-      <div class="rotulo">Restrições alimentares</div>
-      <div class="valor" id="valor-restricoes">—</div>
-    </div>
-    <div class="campo">
-      <div class="rotulo">LinkedIn</div>
-      <div class="valor"><a id="valor-linkedin" class="valor" href="#" target="_blank">—</a></div>
+
+    <div class="grupo">
+      <div class="titulo-seccao">Rede</div>
+      <a class="campo ligacao" href="contactos.html">
+        <div><div class="rotulo">Connect &amp; Collect</div><div class="valor">Os meus contactos</div></div>
+        <span class="seta">→</span>
+      </a>
     </div>
 
     <button class="botao-perigo" onclick="terminarSessao()">Terminar sessão</button>
@@ -132,9 +90,7 @@
 
   <div class="estado" id="carregamento">A carregar perfil…</div>
 
-  <!-- 1. Biblioteca do Supabase como script normal (não é módulo) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- 2. O teu cliente Supabase -->
   <script src="supabaseClient.js"></script>
 
   <script>
@@ -151,28 +107,38 @@
         return;
       }
 
-      render(participante);
+      render(participante, await getPacote(participante));
       document.getElementById('carregamento').style.display = 'none';
       document.getElementById('conteudo').style.display = 'block';
     }
 
-    function render(p) {
-      const iniciais = p.nome
-        ? p.nome.split(' ').map(parte => parte[0]).slice(0, 2).join('').toUpperCase()
-        : '?';
+    function getPacote(p) { return getPacoteDoParticipante(p); }
 
-      document.getElementById('avatar-iniciais').textContent = iniciais;
-      document.getElementById('nome-principal').textContent = p.nome ?? '—';
-      document.getElementById('subtitulo-principal').textContent = p.qr_code ?? '';
-      document.getElementById('valor-universidade').textContent = p.universidade ?? '—';
-      document.getElementById('valor-junior-empresa').textContent = p.junior_empresa ?? '—';
-      document.getElementById('valor-email').textContent = p.email ?? '—';
-      document.getElementById('valor-restricoes').textContent = p.restricoes_alimentares || 'Nenhuma';
+    function render(p, pacote) {
+      const iniciais = p.nome ? p.nome.split(' ').map(x => x[0]).slice(0, 2).join('').toUpperCase() : '?';
+      const set = (id, v) => { document.getElementById(id).textContent = v; };
+
+      set('avatar-iniciais', iniciais);
+      set('nome-principal', p.nome ?? '—');
+      set('subtitulo-principal', p.qr_code ?? '');
+      set('pacote-nome', pacote?.nome ?? 'Ainda não atribuído');
+      set('pacote-desc', pacote?.descricao ?? (pacote ? '' : 'A organização vai atualizar isto em breve.'));
+      // Alojamento e quarto: só para os pacotes Madragoa e Santos
+      const comAlojamento = pacoteTemAlojamento(pacote?.nome);
+      document.getElementById('bloco-alojamento').style.display = comAlojamento ? '' : 'none';
+      document.getElementById('campo-quarto').style.display = comAlojamento ? '' : 'none';
+      document.getElementById('grelha-quarto-turno').style.gridTemplateColumns = comAlojamento ? '' : '1fr';
+      set('valor-alojamento', p.nome_alojamento ?? 'Por atribuir');
+      set('valor-quarto', p.numero_quarto ?? '—');
+      set('valor-turno', p.turno_refeicao ?? 'Por atribuir');
+      set('valor-universidade', p.universidade ?? '—');
+      set('valor-junior-empresa', p.junior_empresa ?? '—');
+      set('valor-email', p.email ?? '—');
+      set('valor-restricoes', p.restricoes_alimentares || 'Nenhuma');
 
       const linkedinEl = document.getElementById('valor-linkedin');
       if (p.linkedin) {
-        const url = p.linkedin.startsWith('http') ? p.linkedin : `https://${p.linkedin}`;
-        linkedinEl.href = url;
+        linkedinEl.href = p.linkedin.startsWith('http') ? p.linkedin : `https://${p.linkedin}`;
         linkedinEl.textContent = p.linkedin;
       } else {
         linkedinEl.removeAttribute('href');
@@ -182,11 +148,11 @@
 
     async function terminarSessao() {
       await supabaseClient.auth.signOut();
+      try { sessionStorage.clear(); } catch (e) {}
       window.location.href = 'login.html';
     }
   </script>
 
   <script src="jenc-ui.js"></script>
-
 </body>
 </html>

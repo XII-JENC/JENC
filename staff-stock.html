@@ -19,17 +19,6 @@
     --erro: #E8877A;
   }
   * { box-sizing: border-box; }
-  .fundo-foto {
-    position: fixed; inset: 0; z-index: -2;
-    background-image: url("jenc-fundo.png");
-    background-size: 640px auto;
-    background-position: top center;
-    background-repeat: repeat;
-  }
-  .fundo-veu {
-    position: fixed; inset: 0; z-index: -1;
-    background: linear-gradient(180deg, rgba(12,35,64,0.55) 0%, rgba(12,35,64,0.72) 55%, rgba(12,35,64,0.88) 100%);
-  }
   .card, [class*="card"], [class*="item-"], [class*="cartao"], [class*="aba"], .painel-detalhe, [class*="campo"], input, .rotulo-funcao {
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
@@ -40,7 +29,7 @@
     font-family: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
-    padding: 20px 16px 90px;
+    padding: 24px 18px 110px;
     max-width: 520px;
     margin-inline: auto;
   }
@@ -53,68 +42,81 @@
     font-size:14px; padding:6px 10px; border-radius:8px; cursor:pointer; text-decoration:none;
   }
 
+  /* Espaçamento generoso: cada bloco tem ar à volta e entre si */
+  header { margin-bottom: 26px; }
+  .mensagem-topo { margin-bottom: 14px; }
+
   .botao-novo-momento {
-    width: 100%; padding: 12px; border-radius: 10px; border: 1px dashed var(--border);
+    width: 100%; padding: 15px; border-radius: 999px; border: 1px dashed var(--border);
     background: none; color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer;
-    margin-bottom: 18px;
+    margin-bottom: 26px;
   }
 
   .form-momento, .form-item {
-    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-    padding: 14px; margin-bottom: 14px; display: none;
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 20px; margin-bottom: 26px; display: none;
   }
+  .form-item { margin: 18px 0 0; padding: 18px; background: rgba(12,35,64,.4); }
   .form-momento.aberto, .form-item.aberto { display: block; }
   .form-momento input, .form-item input {
-    width: 100%; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px;
-    border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 13px;
+    width: 100%; padding: 13px 14px; border-radius: 12px; margin-bottom: 12px;
+    border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 14px;
   }
-  .linha-form { display: flex; gap: 8px; }
-  .linha-form input { flex: 1; }
+  .linha-form { display: flex; gap: 12px; }
+  .linha-form input { flex: 1; min-width: 0; }
+  .form-momento .linha-form:last-child, .form-item .linha-form:last-child { margin-top: 6px; }
   .botao-guardar {
-    padding: 10px 16px; border: none; border-radius: 8px;
+    padding: 12px 22px; border: none; border-radius: 999px;
     background: var(--accent); color: #0C2340; font-weight: 700; font-size: 13px; cursor: pointer;
   }
   .botao-cancelar {
-    padding: 10px 16px; border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 22px; border: 1px solid var(--border); border-radius: 999px;
     background: none; color: var(--muted); font-size: 13px; cursor: pointer;
   }
 
   .card-momento {
-    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-    padding: 16px; margin-bottom: 16px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+    padding: 22px 20px; margin-bottom: 28px;
   }
-  .cabecalho-momento { margin-bottom: 12px; }
-  .cabecalho-momento .nome { font-size: 16px; font-weight: 700; }
-  .cabecalho-momento .detalhe { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .cabecalho-momento { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .cabecalho-momento .nome { font-size: 17px; font-weight: 700; }
+  .cabecalho-momento .detalhe { font-size: 12.5px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
 
-  .item-stock { border-top: 1px solid var(--border); padding: 12px 0; }
-  .item-stock:first-of-type { border-top: none; padding-top: 0; }
-  .item-stock .topo-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-  .item-stock .nome-item { font-size: 14px; font-weight: 600; }
-  .item-stock .contagem-item { font-size: 12px; color: var(--muted); }
+  /* Cada item é uma caixa própria, separada das outras */
+  .item-stock { background: rgba(12,35,64,.38); border: 1px solid rgba(189,140,28,.18); border-radius: 14px; padding: 18px 16px; margin-bottom: 14px; }
+  .item-stock .topo-item { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+  .item-stock .nome-item { font-size: 15px; font-weight: 600; }
+  .item-stock .contagem-item { font-size: 12px; color: var(--muted); white-space: nowrap; }
 
-  .barra-progresso { height: 6px; border-radius: 999px; background: var(--bg); overflow: hidden; margin-bottom: 8px; }
+  .barra-progresso { height: 8px; border-radius: 999px; background: var(--bg); overflow: hidden; margin-bottom: 18px; }
   .barra-progresso .preenchido { height: 100%; background: var(--accent); }
   .barra-progresso .preenchido.esgotado { background: var(--erro); }
 
-  .controlos-item { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; row-gap: 10px; }
+  .linha-passos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
   .botao-passo {
-    width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border);
-    background: var(--bg); color: var(--text); font-size: 12px; font-weight: 700; cursor: pointer;
+    min-height: 42px; border-radius: 12px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--text); font-size: 13px; font-weight: 700; cursor: pointer;
   }
-  .controlos-item input.campo-numero {
-    width: 60px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--border);
-    background: var(--bg); color: var(--text); font-size: 13px; text-align: center;
+  .linha-exato { display: flex; align-items: center; gap: 10px; }
+  .linha-exato .rotulo-mini { font-size: 12px; color: var(--muted); }
+  .linha-exato .separador { flex: 1; }
+  .controlos-item input.campo-numero, .linha-exato input.campo-numero {
+    width: 72px; padding: 10px 8px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--text); font-size: 14px; text-align: center;
   }
-  .controlos-item .rotulo-mini { font-size: 11px; color: var(--muted); }
-  .controlos-item .separador { flex: 1; }
+  .linha-exato .botao-passo { min-height: 42px; width: 46px; }
+
+  .corrigir-inicial { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  .corrigir-inicial .ligacao { cursor: pointer; text-decoration: underline; }
+  .corrigir-inicial .editar { display: none; align-items: center; gap: 10px; margin-top: 12px; }
+  .corrigir-inicial .editar.aberto { display: flex; }
 
   .botao-add-item {
-    width: 100%; padding: 9px; border-radius: 8px; border: 1px dashed var(--border);
-    background: none; color: var(--muted); font-size: 12px; cursor: pointer; margin-top: 10px;
+    width: 100%; padding: 13px; border-radius: 999px; border: 1px dashed var(--border);
+    background: none; color: var(--muted); font-size: 13px; cursor: pointer; margin-top: 8px;
   }
 
-  .vazio, .estado-carregamento { text-align: center; color: var(--muted); padding: 30px 0; font-size: 14px; }
+  .vazio, .estado-carregamento { text-align: center; color: var(--muted); padding: 34px 0; font-size: 14px; }
   .mensagem-topo { font-size: 12px; text-align: center; margin-bottom: 10px; min-height: 16px; }
   .mensagem-topo.erro { color: var(--erro); }
 </style>
@@ -186,7 +188,14 @@
 
       // Atualiza sozinho de vez em quando, para veres o que outros
       // membros do staff forem registando, sem teres de dar refresh.
-      intervaloAtualizacao = setInterval(carregarTudo, 20000);
+      intervaloAtualizacao = setInterval(() => { if (!aEditar()) carregarTudo(); }, 20000);
+    }
+
+    // Não recarrega a lista enquanto estás a escrever ou com um formulário aberto (senão perdias o que escreveste).
+    function aEditar() {
+      const ativo = document.activeElement;
+      const aEscrever = ativo && ativo.tagName === 'INPUT';
+      return aEscrever || !!document.querySelector('.form-item.aberto, .form-momento.aberto, .corrigir-inicial .editar.aberto');
     }
 
     async function carregarTudo() {
@@ -299,7 +308,7 @@
         if (itens.length === 0) {
           const vazio = document.createElement('div');
           vazio.className = 'vazio';
-          vazio.style.padding = '10px 0';
+          vazio.style.padding = '8px 0 16px';
           vazio.textContent = 'Ainda sem itens de stock.';
           card.appendChild(vazio);
         }
@@ -345,23 +354,26 @@
           <div class="preenchido${item.quantidade_restante === 0 ? ' esgotado' : ''}" style="width:${percentagemConsumida}%"></div>
         </div>
         <div class="controlos-item">
-          <button class="botao-passo" onclick="ajustarRestante('${item.id}', -1)">-1</button>
-          <button class="botao-passo" onclick="ajustarRestante('${item.id}', -5)">-5</button>
-          <button class="botao-passo" onclick="ajustarRestante('${item.id}', -10)">-10</button>
-          <button class="botao-passo" onclick="ajustarRestante('${item.id}', -25)">-25</button>
-          <div class="separador"></div>
-          <span class="rotulo-mini">restam:</span>
-          <input type="text" inputmode="numeric" class="campo-numero" min="0" value="${item.quantidade_restante}" id="restante-${item.id}"
-                 onkeydown="if(event.key==='Enter') guardarRestante('${item.id}')">
-          <button class="botao-passo" style="width:auto; padding:0 8px;" onclick="guardarRestante('${item.id}')">✓</button>
+          <div class="linha-passos">
+            <button class="botao-passo" onclick="ajustarRestante('${item.id}', -1)">-1</button>
+            <button class="botao-passo" onclick="ajustarRestante('${item.id}', -5)">-5</button>
+            <button class="botao-passo" onclick="ajustarRestante('${item.id}', -10)">-10</button>
+            <button class="botao-passo" onclick="ajustarRestante('${item.id}', -25)">-25</button>
+          </div>
+          <div class="linha-exato">
+            <span class="rotulo-mini">Restam:</span>
+            <input type="text" inputmode="numeric" class="campo-numero" min="0" value="${item.quantidade_restante}" id="restante-${item.id}"
+                   onkeydown="if(event.key==='Enter') guardarRestante('${item.id}')">
+            <button class="botao-passo" onclick="guardarRestante('${item.id}')" aria-label="Guardar">✓</button>
+          </div>
         </div>
-        <div style="margin-top:6px;">
-          <span class="rotulo-mini" style="cursor:pointer; text-decoration:underline;" onclick="alternarEditarInicial('${item.id}')">corrigir quantidade inicial</span>
-          <span id="editar-inicial-${item.id}" style="display:none; margin-left:8px;">
-            <input type="text" inputmode="numeric" class="campo-numero" min="0" value="${item.quantidade_inicial}" id="inicial-${item.id}" style="width:70px;"
+        <div class="corrigir-inicial">
+          <span class="ligacao" onclick="alternarEditarInicial('${item.id}')">Corrigir quantidade inicial</span>
+          <div class="editar" id="editar-inicial-${item.id}">
+            <input type="text" inputmode="numeric" class="campo-numero" min="0" value="${item.quantidade_inicial}" id="inicial-${item.id}"
                    onkeydown="if(event.key==='Enter') guardarInicial('${item.id}')">
-            <button class="botao-passo" style="width:auto; padding:0 8px;" onclick="guardarInicial('${item.id}')">✓</button>
-          </span>
+            <button class="botao-passo" onclick="guardarInicial('${item.id}')" aria-label="Guardar">✓</button>
+          </div>
         </div>
       `;
       return div;
@@ -424,8 +436,7 @@
     }
 
     function alternarEditarInicial(itemId) {
-      const el = document.getElementById(`editar-inicial-${itemId}`);
-      el.style.display = el.style.display === 'none' ? 'inline-block' : 'none';
+      document.getElementById(`editar-inicial-${itemId}`).classList.toggle('aberto');
     }
 
     async function guardarInicial(itemId) {

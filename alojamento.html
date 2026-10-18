@@ -17,17 +17,6 @@
     --border: rgba(189, 140, 28, 0.24);
   }
   * { box-sizing: border-box; }
-  .fundo-foto {
-    position: fixed; inset: 0; z-index: -2;
-    background-image: url("jenc-fundo.png");
-    background-size: 640px auto;
-    background-position: top center;
-    background-repeat: repeat;
-  }
-  .fundo-veu {
-    position: fixed; inset: 0; z-index: -1;
-    background: linear-gradient(180deg, rgba(12,35,64,0.55) 0%, rgba(12,35,64,0.72) 55%, rgba(12,35,64,0.88) 100%);
-  }
   .card, [class*="card"], [class*="item-"], [class*="cartao"], [class*="aba"], .painel-detalhe, input {
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
@@ -129,6 +118,13 @@
       if (!participante) {
         document.getElementById('carregamento').textContent =
           'Não foi possível carregar os teus dados. Contacta a organização.';
+        return;
+      }
+
+      const pacote = await getPacoteDoParticipante(participante);
+      if (!pacoteTemAlojamento(pacote?.nome)) {
+        document.getElementById('carregamento').textContent =
+          'O alojamento está incluído apenas nos pacotes Madragoa e Santos.';
         return;
       }
 

@@ -1,75 +1,82 @@
-/* JENC — camada elegante e calma (carrega depois do CSS de cada página) */
-.fundo-foto{background-size:cover!important;background-repeat:no-repeat!important;background-position:center top!important}
-.fundo-veu{background:linear-gradient(180deg,rgba(12,35,64,.3),rgba(12,35,64,.62))!important}
-body{position:relative}
-body::after{content:"";position:absolute;top:34px;right:-12px;width:150px;height:150px;opacity:.5;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23BD8C1C' stroke-width='1'%3E%3Cpath d='M98 2C60 2 30 26 22 64'/%3E%3Cpath d='M98 14C70 14 48 30 40 56'/%3E%3Cpath d='M98 26C80 26 64 38 58 54'/%3E%3Cpath d='M22 64c-5 10 2 20 12 18'/%3E%3C/svg%3E") no-repeat}
-h1{font-weight:800!important;letter-spacing:-.025em}
-h1::after{content:"";display:block;width:34px;height:2px;background:#BD8C1C;border-radius:2px;margin-top:10px}
-.titulo-editorial::after,h1.titulo-forma::after{display:none}
-.voltar{background:none!important;border:0!important;padding:0!important;color:#93A6BF!important}
-.ico{width:1em;height:1em;vertical-align:-.15em;margin-right:.35em;color:#BD8C1C}
+/* JENC — camada visual partilhada (tema escuro: azul-marinho com azulejo, texto marfim, fio dourado).
+   Carrega depois do CSS de cada página, por isso redefine as variáveis e herda-se em todas as páginas. */
+:root{--bg:#0C2340;--card:rgba(22,55,95,.52);--accent:#D8B45F;--text:#F6F1E4;--muted:#A9BAD0;--border:rgba(189,140,28,.34);--erro:#E8877A;--sucesso:#8FCB9B}
+html{background:#0C2340}
+body{background:transparent!important;color:var(--text);position:relative}
+/* Fundo: a foto preenche o ecrã todo (cover). Em ecrãs largos (computador) mostra-se à altura total, sem ampliar, com as margens a esbater para o azul. */
+.fundo-jenc,.fundo-foto{position:fixed;inset:0;z-index:-2;background:#0C2340 url("jenc-fundo.png") center top/cover no-repeat!important}
+@media(min-aspect-ratio:1/1){.fundo-jenc,.fundo-foto{background-size:auto 100%!important;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}}
+.fundo-veu{background:linear-gradient(180deg,rgba(12,35,64,.1),rgba(12,35,64,.3))!important}
+.voltar{background:none!important;border:0!important;padding:0!important;color:var(--muted)!important;font-weight:600}
+.ico{width:1em;height:1em;vertical-align:-.15em;margin-right:.35em;color:#E8C873}
 .acoes-contacto .ico,.nav-staff .ico,.icone .ico{margin:0}
-.nav-staff .ico{width:18px;height:18px;color:#93A6BF}
-.acoes-contacto .ico{width:16px;height:16px;color:#E8C873}
+.nav-staff .ico{width:18px;height:18px;color:var(--muted)}
+.acoes-contacto .ico{width:16px;height:16px;color:var(--gold-texto,#E8C873)}
 
-/* Linhas em vez de caixas */
-.card,.card-nav,.card-atividade,.card-pessoa,.card-turno,.card-momento,.card-desafio,.item-atividade,.item-turno,.item-contacto,.item-registo,.item-stock,.item-pendente,.item-local-sem-pin,.linha-leaderboard,.bloco-compra,.campo,.painel-detalhe,.caixa-acao{background:transparent!important;border:0!important;border-bottom:1px solid rgba(189,140,28,.18)!important;border-radius:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;margin-bottom:0!important}
+/* Títulos: texto simples, sem moldura */
+h1,.titulo-editorial{display:block;margin:0;padding:0;border:0;border-radius:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;color:#F6F1E4;font-weight:800;letter-spacing:-.02em}
+h1::after,.titulo-editorial::after{display:none!important}
+.cabecalho-inicio .titulo-editorial{font-size:26px}
+header h1{margin-bottom:4px}
 
-/* Destaques: vidro suave com fio dourado */
-.cartao-principal,.cartao-resumo,.cartao-progresso,.cartao-pontos,.bilhete-proxima{background:rgba(22,55,95,.3)!important;border:1px solid rgba(189,140,28,.3)!important;color:#F6F1E4!important;box-shadow:none!important;border-radius:20px!important;position:relative;overflow:hidden;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.cartao-principal::after,.cartao-resumo::after,.cartao-progresso::after,.cartao-pontos::after{content:"";position:absolute;right:-8px;bottom:-10px;width:110px;height:110px;opacity:.3;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23BD8C1C' stroke-width='1.2'%3E%3Cpath d='M98 98C60 98 30 74 22 36'/%3E%3Cpath d='M98 82C72 82 52 66 46 40'/%3E%3Cpath d='M98 66C80 66 64 54 58 42'/%3E%3C/svg%3E") no-repeat}
+/* Cartões: vidro azul com fio dourado */
+.card,.card-nav,.card-atividade,.card-pessoa,.card-turno,.card-desafio,.item-atividade,.item-turno,.item-contacto,.item-registo,.item-pendente,.item-local-sem-pin,.linha-leaderboard,.bloco-compra,.campo,.painel-detalhe,.caixa-acao,.card-resumo-mini,.item-mural,.cartao-encontrado,.aviso-camara{background:rgba(22,55,95,.52)!important;border:1px solid rgba(189,140,28,.34)!important;border-radius:16px!important;box-shadow:0 6px 20px rgba(0,0,0,.2)!important;-webkit-backdrop-filter:blur(8px)!important;backdrop-filter:blur(8px)!important;color:#F6F1E4}
+.card-nav.destaque,.item-turno.meu,.linha-leaderboard.eu{border-color:#D8B45F!important;box-shadow:0 6px 20px rgba(189,140,28,.22)!important}
+.card-nav .icone,.caixa-acao .icone,.card-momento .icone{color:#E8C873}
+
+/* Destaques: azul mais claro com fio dourado */
+.cartao-principal,.cartao-resumo,.cartao-progresso,.cartao-pontos,.bilhete-proxima{background:linear-gradient(135deg,rgba(24,60,104,.96),rgba(36,82,134,.94))!important;border:1.5px solid #BD8C1C!important;color:#F6F1E4!important;border-radius:20px!important;box-shadow:0 12px 30px rgba(0,0,0,.3)!important;position:relative;overflow:hidden}
+.cartao-principal::after,.cartao-resumo::after,.cartao-progresso::after,.cartao-pontos::after{content:"";position:absolute;right:-8px;bottom:-10px;width:110px;height:110px;opacity:.35;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23E8C873' stroke-width='1.2'%3E%3Cpath d='M98 98C60 98 30 74 22 36'/%3E%3Cpath d='M98 82C72 82 52 66 46 40'/%3E%3Cpath d='M98 66C80 66 64 54 58 42'/%3E%3C/svg%3E") no-repeat}
 .cartao-resumo .tag,.cartao-principal .tag,.cartao-progresso .tag,.cartao-pontos .tag{color:#E8C873!important;opacity:1!important}
-.cartao-resumo .legenda,.cartao-principal .linha{color:#F6F1E4!important;opacity:.85}
-.card-resumo-mini{background:transparent!important;border:0!important;border-top:1px solid rgba(189,140,28,.22)!important;border-radius:0!important;padding:14px 2px!important}
-.card-resumo-mini .numero{color:#F6F1E4!important}
+.cartao-resumo .legenda,.cartao-principal .linha{color:#F6F1E4!important;opacity:.9}
+.cartao-principal .ico,.cartao-progresso .ico{color:#E8C873}
+.card-resumo-mini .numero{color:var(--accent)!important}
 
-/* Essencial: grelha de fios finos */
-.tira-chips{display:grid!important;grid-template-columns:1fr 1fr;gap:0;overflow:visible!important;padding:0!important}
-.chip{background:transparent!important;border:0!important;border-bottom:1px solid rgba(189,140,28,.18)!important;border-radius:0!important;box-shadow:none!important;backdrop-filter:none!important;padding:16px 4px!important;min-width:0!important}
-.chip:nth-child(odd){border-right:1px solid rgba(189,140,28,.18)!important;padding-right:14px!important}
-.chip:nth-child(even){padding-left:18px!important}
-.chip svg{width:20px!important;height:20px!important;color:#BD8C1C!important}
+/* Atalhos em grelha */
+.card-nav .titulo{color:#F6F1E4}
+.card-nav .icone{width:42px;height:42px;border-radius:50%;border:1.5px solid #BD8C1C;display:inline-grid!important;place-items:center;margin-bottom:10px}
 
-/* Atalhos (staff/logística) em lista */
-.grid-nav{display:block!important}
-.card-nav{display:grid!important;grid-template-columns:38px 1fr;column-gap:14px;align-items:center;padding:15px 2px!important}
-.card-nav .icone,.caixa-acao .icone,.card-momento .icone{grid-row:1/3;width:38px;height:38px;border-radius:50%;border:1px solid rgba(189,140,28,.5);color:#E8C873;display:grid!important;place-items:center;margin:0!important}
-.card-nav .titulo,.card-nav .descricao{grid-column:2}
-.icone .ico{width:19px;height:19px;color:#E8C873}
+/* Separadores (abas): a ativa fica dourada */
+.aba-dia,.aba-piso,.aba-vista,.aba-secao{background:rgba(22,55,95,.52)!important;border:1px solid rgba(189,140,28,.4)!important;border-radius:999px!important;color:#C5D1E2!important;transition:background .35s cubic-bezier(.4,0,.2,1),color .35s cubic-bezier(.4,0,.2,1),border-color .35s,transform .2s}
+.aba-dia.ativa,.aba-piso.ativa,.aba-vista.ativa,.aba-secao.ativa{background:#D8B45F!important;border-color:#D8B45F!important;color:#0C2340!important}
+.aba-dia:active,.aba-piso:active,.aba-vista:active,.aba-secao:active{transform:scale(.96)}
 
-/* Separadores sublinhados */
-.aba-dia,.aba-piso,.aba-vista,.aba-secao{background:none!important;border:0!important;border-bottom:2px solid transparent!important;border-radius:0!important;color:#93A6BF!important;padding:10px 4px!important;margin-right:10px}
-.aba-dia.ativa,.aba-piso.ativa,.aba-vista.ativa,.aba-secao.ativa{color:#E8C873!important;border-bottom-color:#BD8C1C!important}
+/* Campos de texto e pesquisa */
+input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]),select,textarea{background:rgba(12,35,64,.55)!important;border:1px solid rgba(189,140,28,.45)!important;border-radius:14px!important;color:#F6F1E4;transition:background .25s,color .25s,border-color .25s,box-shadow .25s,transform .2s}
+input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]):focus,select:focus,textarea:focus{outline:none;background:rgba(246,241,228,.96)!important;color:#0C2340!important;border-color:#D8B45F!important;box-shadow:0 0 0 4px rgba(189,140,28,.28),0 8px 22px rgba(0,0,0,.3);transform:translateY(-1px)}
+input::placeholder,textarea::placeholder{color:#8296B1}
+input:focus::placeholder,textarea:focus::placeholder{color:#6C7F99}
 
-/* Campos e botões */
-input:not([type=checkbox]):not([type=radio]),select,textarea{background:rgba(12,35,64,.35)!important;border:1px solid rgba(189,140,28,.25)!important;border-radius:12px!important;color:#F6F1E4}
-input:focus,select:focus,textarea:focus{outline:none;border-color:#BD8C1C!important}
+/* Botões */
 .botao-dourado,.botao-guardar,.botao-registar-mini,.botao-submeter,.botao-novo-momento,.botao-add-item,.entrada-manual button,.acoes-item button.guardar,.acoes-form button.guardar{background:linear-gradient(135deg,#C4931F,#E8C873)!important;color:#0C2340!important;border:0!important;border-radius:999px!important;font-weight:700}
-a,button{transition:opacity .2s}
-a:active,button:active{opacity:.65}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.botao-perigo{background:rgba(22,55,95,.52)!important;color:#F0958A!important;border:1px solid rgba(232,135,122,.5)!important;border-radius:999px!important}
+a,button{transition:opacity .2s,transform .15s}
+a:active,button:active{opacity:.7;transform:scale(.98)}
 
-/* Tema: Futuro sobre o Tejo (ondas do rio no fundo) */
-html::after{content:"";position:fixed;left:0;right:0;bottom:0;height:150px;z-index:-1;pointer-events:none;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20480%20140%22%20preserveAspectRatio%3D%22none%22%20fill%3D%22none%22%20stroke%3D%22%23BD8C1C%22%20stroke-width%3D%221.2%22%3E%3Cpath%20opacity%3D%22.5%22%20d%3D%22M0%2090C60%2060%20120%20120%20180%2090S300%2060%20360%2090S450%20110%20480%2090%22/%3E%3Cpath%20opacity%3D%22.35%22%20d%3D%22M0%20110C70%2080%20130%20140%20200%20110S320%2080%20380%20110S460%20130%20480%20112%22/%3E%3Cpath%20opacity%3D%22.25%22%20d%3D%22M0%2070C50%2050%20110%2090%20170%2070S290%2050%20350%2070S440%2085%20480%2072%22/%3E%3C/svg%3E") bottom/100% 100% no-repeat}
-
-/* Barra de navegação: pílula branca com acento dourado */
-body #jenc-nav{left:50%!important;right:auto!important;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px))!important;width:calc(100% - 28px);max-width:452px;border:0!important;border-radius:999px;background:rgba(246,241,228,.97)!important;box-shadow:0 10px 30px rgba(0,0,0,.4);padding:5px!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
-body #jenc-nav a{color:#5d7089!important;border-radius:999px;padding:8px 2px 7px!important}
-body #jenc-nav a.ativo{color:#0C2340!important;background:rgba(189,140,28,.2)}
-body #jenc-nav a.ativo .ic{color:#BD8C1C}
-body #jenc-nav a.ativo::before{display:none!important}
-
-/* Gamificação: várias fotos */
-.tira-fotos{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
-.tira-fotos img{width:68px;height:68px;object-fit:cover;border-radius:12px;border:1px solid rgba(189,140,28,.3)}
-
-/* Compras: momentos bem distintos */
-.rotulo-dia{color:#E8C873!important;border-bottom:1px solid rgba(189,140,28,.4);padding-bottom:6px}
+/* Pormenores */
+.tipo-opcao.acao-saida.ativo,.linha-recente .tag-acao.saida,.tipo-opcao.acao-entrada.ativo,.linha-recente .tag-acao.entrada,.linha-item.comprado .check{color:#fff!important}
+.mini-barra,.barra{background:rgba(255,255,255,.14)!important}
+#jenc-nav .barra{background:none!important}
+.toast{background:#F6F1E4!important;color:#0C2340!important}
+.lightbox-mural{color:#F6F1E4}
+.rotulo-dia{color:#E8C873!important;border-bottom:1px solid rgba(189,140,28,.5);padding-bottom:6px}
 .grelha-momentos{grid-template-columns:1fr!important;gap:10px!important}
-.grelha-momentos .card-momento{display:grid!important;grid-template-columns:40px 1fr;column-gap:14px;background:rgba(22,55,95,.32)!important;border:1px solid rgba(189,140,28,.22)!important;border-left:4px solid #BD8C1C!important;border-radius:14px!important;padding:14px 16px!important}
-.grelha-momentos .card-momento>*{grid-column:2}
-.grelha-momentos .card-momento .icone{grid-column:1;grid-row:1/4}
-.grelha-momentos .card-momento.refeicao{background:linear-gradient(90deg,rgba(189,140,28,.22),rgba(22,55,95,.32) 70%)!important;border-left-color:#E8C873!important}
-.grelha-momentos .card-momento.refeicao .icone{background:#BD8C1C;color:#0C2340;border-color:#BD8C1C}
-.grelha-momentos .card-momento.refeicao .icone .ico{color:#0C2340}
-.grelha-momentos .card-momento.coffee .titulo{color:#E8C873}
+.tira-fotos{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.tira-fotos img{width:68px;height:68px;object-fit:cover;border-radius:12px;border:1px solid rgba(189,140,28,.4)}
+
+/* Transições: o fundo e a barra de navegação ficam parados; só o conteúdo esmorece */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.4s;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+#jenc-nav{view-transition-name:jenc-nav}
+::view-transition-group(jenc-nav){animation-duration:0s}
+@keyframes jenc-entrar{from{opacity:0}to{opacity:1}}
+@keyframes jenc-trocar{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes jenc-sair{from{opacity:1}to{opacity:0}}
+body > *:not(#jenc-nav):not(script):not(style):not(.fundo-jenc):not(.fundo-jenc-veu):not(.fundo-foto):not(.fundo-veu){animation:jenc-entrar .5s cubic-bezier(.4,0,.2,1) backwards}
+body.jenc-saindo > *:not(#jenc-nav):not(script):not(style):not(.fundo-jenc):not(.fundo-jenc-veu):not(.fundo-foto):not(.fundo-veu){opacity:0;transition:opacity .22s cubic-bezier(.4,0,.2,1)}
+#conteudo,#area-calendario{animation:jenc-entrar .5s cubic-bezier(.4,0,.2,1) both}
+.secao.ativa,#lista-atividades>*,#lista-horario>*,#lista-equipa>*,#lista-turnos>*,#lista-contactos>*{animation:jenc-trocar .5s cubic-bezier(.22,.61,.36,1) both}
+.secao.saindo{display:block!important;animation:jenc-sair .2s ease both;pointer-events:none}
+.calendario.anima{animation:jenc-trocar .5s cubic-bezier(.22,.61,.36,1) both}
+@supports(selector(:active-view-transition)){body > *{animation:none!important}}
+@media(prefers-reduced-motion:reduce){*,body{transition:none!important;animation:none!important}}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gamificação — JENC</title>
+<title>Missões — JENC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="jenc-tema.css">
@@ -19,17 +19,6 @@
     --erro: #E8877A;
   }
   * { box-sizing: border-box; }
-  .fundo-foto {
-    position: fixed; inset: 0; z-index: -2;
-    background-image: url("jenc-fundo.png");
-    background-size: 640px auto;
-    background-position: top center;
-    background-repeat: repeat;
-  }
-  .fundo-veu {
-    position: fixed; inset: 0; z-index: -1;
-    background: linear-gradient(180deg, rgba(12,35,64,0.55) 0%, rgba(12,35,64,0.72) 55%, rgba(12,35,64,0.88) 100%);
-  }
   .card, [class*="card"], [class*="item-"], [class*="cartao"], [class*="aba"], .painel-detalhe, input {
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
@@ -83,8 +72,19 @@
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
+    font-family: inherit;
   }
   .aba-secao.ativa { background: var(--accent); color: #0C2340; border-color: var(--accent); }
+
+
+  /* Painel de topo: título e separadores no mesmo bloco azul */
+  .painel-topo { background: #123A5C; border-radius: 16px; padding: 18px 14px 14px; margin: 0 0 18px; box-shadow: 0 10px 26px rgba(12,35,64,.2); }
+  .painel-topo h1 { color: #fff; font-size: 21px; font-weight: 700; margin: 0 0 14px; letter-spacing: -0.01em; }
+  .painel-topo .abas-secao { display: flex; flex-wrap: nowrap; gap: 6px; margin: 0; overflow-x: auto; scrollbar-width: none; }
+  .painel-topo .abas-secao::-webkit-scrollbar { display: none; }
+  .painel-topo .aba-secao { flex: 1 1 auto; white-space: nowrap; text-align: center; padding: 9px 8px !important; border-radius: 10px !important; background: #fff !important; border: 0 !important; color: #123A5C !important; font-size: 12px; font-weight: 500; }
+  .painel-topo .aba-secao.ativa { background: #D8B45F !important; color: #123A5C !important; font-weight: 700; }
+  .painel-topo .aba-secao:not(.ativa):hover { background: #F1EBDA !important; }
 
   .secao { display: none; }
   .secao.ativa { display: block; }
@@ -128,6 +128,22 @@
   .form-submissao input[type="file"] {
     width: 100%; font-size: 12px; color: var(--muted); margin-bottom: 10px;
   }
+  .form-submissao label.pergunta { display: block; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .form-submissao .dica-ideia { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+  .form-submissao textarea {
+    width: 100%; min-height: 120px; padding: 12px 14px; border-radius: 12px; resize: vertical;
+    border: 1px solid var(--border); background: var(--bg); color: var(--text);
+    font: 500 14px/1.5 Montserrat, 'Segoe UI', system-ui, sans-serif; margin-bottom: 6px;
+  }
+  .contador-ideia { text-align: right; font-size: 11.5px; color: var(--muted); margin-bottom: 12px; }
+  .contador-ideia.cheio { color: var(--erro); }
+  .subtitulo-ideia { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .paragrafo-ideia { margin: 0; }
+  .texto-ideia { font-size: 14.5px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; margin: 0 0 12px; }
+  .rodape-ideia { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .botao-apagar-ideia { padding: 6px 14px; font: 600 12px Montserrat, sans-serif; cursor: pointer; }
+  .autor-ideia { font-size: 12px; font-weight: 700; }
+  .autor-ideia span { color: var(--muted); font-weight: 500; }
   .botao-submeter {
     width: 100%; padding: 11px; border: none; border-radius: 8px;
     background: var(--accent); color: #0C2340; font-weight: 700; font-size: 13px; cursor: pointer;
@@ -226,8 +242,15 @@
   <div class="fundo-foto" aria-hidden="true"></div>
   <div class="fundo-veu" aria-hidden="true"></div>
 
-  <a class="voltar" href="inicio.html">← Início</a>
-  <h1>Gamificação</h1>
+  <header class="painel-topo">
+    <h1>Missões</h1>
+    <div class="abas-secao" role="tablist">
+      <button type="button" role="tab" class="aba-secao ativa" data-secao="desafios">Desafios</button>
+      <button type="button" role="tab" class="aba-secao" data-secao="mural">Share your JENC</button>
+      <button type="button" role="tab" class="aba-secao" data-secao="ideias">One talk, one takeaway</button>
+      <button type="button" role="tab" class="aba-secao" data-secao="leaderboard">Top navegantes</button>
+    </div>
+  </header>
 
   <div id="conteudo" style="display:none;">
 
@@ -239,18 +262,14 @@
       <div class="posicao" id="posicao-leaderboard">—</div>
     </div>
 
-    <div class="abas-secao">
-      <div class="aba-secao ativa" data-secao="desafios">Desafios</div>
-      <div class="aba-secao" data-secao="mural">Mural</div>
-      <div class="aba-secao" data-secao="leaderboard">Leaderboard</div>
-    </div>
-
     <div class="secao ativa" id="secao-desafios"></div>
 
     <div class="secao" id="secao-mural">
       <div id="grid-mural" class="grid-mural"></div>
-      <div class="vazio" id="mural-vazio" style="display:none;">Ainda não há fotos no mural. Sê o primeiro a partilhar!</div>
+      <div class="vazio" id="mural-vazio" style="display:none;">Ainda não há fotos no Share your JENC. Sê o primeiro a partilhar!</div>
     </div>
+
+    <div class="secao" id="secao-ideias"></div>
 
     <div class="secao" id="secao-leaderboard"></div>
 
@@ -282,6 +301,15 @@
   <script src="supabaseClient.js"></script>
 
   <script>
+    // Escapa texto escrito por outras pessoas antes de o pôr no HTML
+    const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const MAX_IDEIA = 500; // ≈ 30 segundos de leitura
+    // Título e texto do desafio das ideias: aparecem sempre, venha o que vier da base de dados
+    const IDEIA_NOME = 'One talk, one takeaway';
+    const IDEIA_SUBTITULO = 'Uma palestra. Uma ideia. Uma nova perspetiva.';
+    const IDEIA_TEXTO = 'Ouve uma palestra no JENC e partilha uma ideia que te tenha marcado. Pode ser algo que aprendeste, uma pergunta que ficou ou uma perspetiva que mudou.';
+    const IDEIA_DESC_HTML = `<div class="subtitulo-ideia">${IDEIA_SUBTITULO}</div><p class="paragrafo-ideia">${IDEIA_TEXTO}</p>`;
+
     let participanteAtual = null;
     let desafios = [];
     let minhasFotos = {};
@@ -289,15 +317,28 @@
 
     init();
 
+    let trocando = false;
     document.querySelectorAll('.aba-secao').forEach(aba => {
       aba.addEventListener('click', () => {
-        document.querySelectorAll('.aba-secao').forEach(a => a.classList.remove('ativa'));
-        document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativa'));
-        aba.classList.add('ativa');
-        document.getElementById('secao-' + aba.dataset.secao).classList.add('ativa');
+        if (trocando || aba.classList.contains('ativa')) return;
+        trocando = true;
 
-        if (aba.dataset.secao === 'mural') carregarMural();
-        if (aba.dataset.secao === 'leaderboard') carregarLeaderboard();
+        document.querySelectorAll('.aba-secao').forEach(a => { a.classList.remove('ativa'); a.setAttribute('aria-selected', 'false'); });
+        aba.classList.add('ativa');
+        aba.setAttribute('aria-selected', 'true');
+
+        // A secção atual esmorece, depois entra a nova (sem salto)
+        const atual = document.querySelector('.secao.ativa');
+        const proxima = document.getElementById('secao-' + aba.dataset.secao);
+        if (atual) atual.classList.add('saindo');
+        setTimeout(() => {
+          if (atual) atual.classList.remove('ativa', 'saindo');
+          proxima.classList.add('ativa');
+          if (aba.dataset.secao === 'mural') carregarMural();
+          if (aba.dataset.secao === 'ideias') carregarIdeias();
+          if (aba.dataset.secao === 'leaderboard') carregarLeaderboard();
+          trocando = false;
+        }, atual ? 170 : 0);
       });
     });
 
@@ -386,7 +427,7 @@
       container.innerHTML = '';
 
       if (desafios.length === 0) {
-        container.innerHTML = '<div class="vazio">Ainda não há desafios publicados.</div>';
+        container.innerHTML = '<div class="vazio">Ainda não há missões publicadas.</div>';
         return;
       }
 
@@ -402,7 +443,7 @@
         } else if (d.tipo === 'contactos') {
           if (minhaParticipacao && minhaParticipacao.estado === 'aprovado') {
             corpoInterno = `
-              <div class="estado-desafio aprovado">✓ Desafio completo — +${minhaParticipacao.pontos} pontos</div>
+              <div class="estado-desafio aprovado">✓ Missão completa — +${minhaParticipacao.pontos} pontos</div>
               <div style="font-size:12.5px; color:var(--muted); margin-top:2px;">Já tens ${contagemContactos} contacto${contagemContactos === 1 ? '' : 's'} recolhidos. Continua a somar — não há limite.</div>
               <a href="contactos.html" style="display:inline-block; margin-top:8px; font-size:12.5px; font-weight:700; color:var(--accent); text-decoration:none;">Adicionar mais contactos →</a>
             `;
@@ -417,11 +458,26 @@
           const publicou = minhaParticipacao && minhaParticipacao.estado === 'aprovado';
           corpoInterno = `
             ${fotos.length ? `<div class="tira-fotos">${fotos.map(u => `<img class="miniatura-enviada" src="${u}" alt="Foto enviada">`).join('')}</div>` : ''}
-            ${publicou ? `<div class="estado-desafio aprovado">✓ ${fotos.length} foto${fotos.length === 1 ? '' : 's'} no mural — +${minhaParticipacao.pontos} pontos</div>` : ''}
+            ${publicou ? `<div class="estado-desafio aprovado">✓ ${fotos.length} foto${fotos.length === 1 ? '' : 's'} partilhada${fotos.length === 1 ? '' : 's'} — +${minhaParticipacao.pontos} pontos</div>` : ''}
             <div class="form-submissao">
               <input type="text" id="legenda-${d.id}" placeholder="Legenda (opcional)">
               <input type="file" id="foto-${d.id}" accept="image/*" multiple>
-              <button class="botao-submeter" id="botao-${d.id}" onclick="submeterFoto('${d.id}')">${publicou ? 'Adicionar mais fotos' : `Publicar no mural (+${d.pontos} pontos)`}</button>
+              <button class="botao-submeter" id="botao-${d.id}" onclick="submeterFoto('${d.id}')">${publicou ? 'Adicionar mais fotos' : `Partilhar (+${d.pontos} pontos)`}</button>
+              <div class="mensagem-desafio" id="mensagem-${d.id}"></div>
+            </div>
+          `;
+        }
+
+        if (d.tipo === 'ideia') {
+          const jaPublicou = minhaParticipacao && minhaParticipacao.estado === 'aprovado';
+          corpoInterno = `
+            ${jaPublicou ? `<div class="estado-desafio aprovado">✓ Ideia partilhada — +${minhaParticipacao.pontos} pontos</div>` : ''}
+            <div class="form-submissao">
+              <label class="pergunta" for="ideia-${d.id}">O que levas desta palestra?</label>
+              <div class="dica-ideia">Escreve uma ideia que queiras partilhar com os outros participantes. Máximo de 30 segundos de leitura.</div>
+              <textarea id="ideia-${d.id}" maxlength="${MAX_IDEIA}" placeholder="Uma ideia, uma pergunta que ficou, uma perspetiva que mudou…" oninput="atualizarContadorIdeia('${d.id}')"></textarea>
+              <div class="contador-ideia" id="contador-${d.id}">0 / ${MAX_IDEIA}</div>
+              <button class="botao-submeter" id="botao-${d.id}" onclick="submeterIdeia('${d.id}')">${jaPublicou ? 'Partilhar outra ideia' : `Partilhar ideia (+${d.pontos} pontos)`}</button>
               <div class="mensagem-desafio" id="mensagem-${d.id}"></div>
             </div>
           `;
@@ -429,10 +485,10 @@
 
         card.innerHTML = `
           <div class="cabecalho-desafio">
-            <div class="nome">${d.nome}</div>
+            <div class="nome">${d.tipo === 'ideia' ? IDEIA_NOME : d.nome}</div>
             ${d.tipo !== 'em_breve' ? `<div class="badge-pontos">${d.pontos} pts</div>` : ''}
           </div>
-          <div class="descricao-desafio">${d.descricao ?? ''}</div>
+          <div class="descricao-desafio">${d.tipo === 'ideia' ? IDEIA_DESC_HTML : (d.descricao ?? '')}</div>
           ${corpoInterno}
         `;
 
@@ -502,35 +558,138 @@
       }
     }
 
+    function atualizarContadorIdeia(desafioId) {
+      const n = document.getElementById(`ideia-${desafioId}`).value.length;
+      const el = document.getElementById(`contador-${desafioId}`);
+      el.textContent = `${n} / ${MAX_IDEIA}`;
+      el.classList.toggle('cheio', n >= MAX_IDEIA);
+    }
+
+    async function submeterIdeia(desafioId) {
+      const campo = document.getElementById(`ideia-${desafioId}`);
+      const mensagemEl = document.getElementById(`mensagem-${desafioId}`);
+      const botao = document.getElementById(`botao-${desafioId}`);
+      const texto = campo.value.trim();
+
+      if (texto.length < 10) {
+        mensagemEl.textContent = 'Escreve um pouco mais — uma frase já chega.';
+        mensagemEl.className = 'mensagem-desafio erro';
+        return;
+      }
+      if (texto.length > MAX_IDEIA) {
+        mensagemEl.textContent = `Máximo de ${MAX_IDEIA} caracteres (30 segundos de leitura).`;
+        mensagemEl.className = 'mensagem-desafio erro';
+        return;
+      }
+
+      botao.disabled = true;
+      mensagemEl.textContent = 'A partilhar…';
+      mensagemEl.className = 'mensagem-desafio';
+
+      const desafio = desafios.find(d => d.id === desafioId);
+      const jaTemPontos = minhasParticipacoes[desafioId]?.estado === 'aprovado';
+
+      // Só a primeira ideia dá pontos; as seguintes são partilhadas com 0 pontos.
+      const { error } = await supabaseClient.from('gamification').insert({
+        participante_id: participanteAtual.id,
+        desafio_id: desafioId,
+        desafio: IDEIA_NOME,
+        pontos: jaTemPontos ? 0 : (desafio?.pontos ?? 0),
+        estado: 'aprovado',
+        legenda: texto
+      });
+
+      botao.disabled = false;
+      if (error) {
+        mensagemEl.textContent = 'Erro ao partilhar: ' + error.message;
+        mensagemEl.className = 'mensagem-desafio erro';
+        return;
+      }
+
+      await carregarMinhasParticipacoes();
+      renderDesafios();
+      await carregarPontosEPosicao();
+      const novoMsg = document.getElementById(`mensagem-${desafioId}`);
+      if (novoMsg) { novoMsg.textContent = 'Ideia partilhada! Podes vê-la no separador One talk, one takeaway.'; novoMsg.className = 'mensagem-desafio sucesso'; }
+    }
+
+    async function apagarIdeia(id, botao) {
+      if (!confirm('Apagar esta ideia? Se foi a que te deu pontos, perdes esses pontos.')) return;
+      botao.disabled = true;
+      const { data, error } = await supabaseClient.rpc('apagar_ideia', { p_id: String(id) });
+      if (error || data === false) {
+        botao.disabled = false;
+        alert('Não foi possível apagar a ideia.' + (error ? ' ' + error.message : ''));
+        return;
+      }
+      await carregarMinhasParticipacoes();
+      renderDesafios();
+      await carregarPontosEPosicao();
+      carregarIdeias();
+    }
+
+    async function carregarIdeias() {
+      const container = document.getElementById('secao-ideias');
+      container.innerHTML = '<div class="vazio">A carregar ideias…</div>';
+
+      const { data, error } = await supabaseClient.rpc('ideias_jenc');
+      if (error) {
+        container.innerHTML = '<div class="vazio">Não foi possível carregar os takeaways.</div>';
+        console.error('Erro ao ir buscar as ideias:', error.message, error.details, error.hint);
+        return;
+      }
+      if (!data || data.length === 0) {
+        container.innerHTML = '<div class="vazio">Ainda ninguém partilhou um takeaway. Sê o primeiro!</div>';
+        return;
+      }
+
+      container.innerHTML = '';
+      data.forEach(i => {
+        const card = document.createElement('div');
+        card.className = 'card-desafio';
+        card.innerHTML = `
+          <p class="texto-ideia">${esc(i.ideia)}</p>
+          <div class="rodape-ideia">
+            <div class="autor-ideia">${esc(i.nome)}${i.junior_empresa ? ` <span>· ${esc(i.junior_empresa)}</span>` : ''}</div>
+            ${i.minha ? `<button type="button" class="botao-perigo botao-apagar-ideia">Apagar</button>` : ''}
+          </div>
+        `;
+        const apagar = card.querySelector('.botao-apagar-ideia');
+        if (apagar) apagar.addEventListener('click', () => apagarIdeia(i.id, apagar));
+        container.appendChild(card);
+      });
+    }
+
     async function carregarMural() {
       const grid = document.getElementById('grid-mural');
       const vazio = document.getElementById('mural-vazio');
-      grid.innerHTML = '<div class="vazio">A carregar mural…</div>';
+      grid.innerHTML = '<div class="vazio">A carregar fotos…</div>';
 
       const { data, error } = await supabaseClient.rpc('mural_fotos');
       if (error) {
         grid.innerHTML = '';
         vazio.style.display = 'block';
-        vazio.textContent = 'Não foi possível carregar o mural.';
+        vazio.textContent = 'Não foi possível carregar o Share your JENC.';
         console.error('Erro ao ir buscar o mural:', error.message, error.details, error.hint);
         return;
       }
 
       grid.innerHTML = '';
-      if (!data || data.length === 0) {
+      const fotos = (data ?? []).filter(f => f.imagem_url);
+      if (fotos.length === 0) {
         vazio.style.display = 'block';
         return;
       }
       vazio.style.display = 'none';
 
-      data.forEach(foto => {
+      fotos.forEach(foto => {
         const item = document.createElement('div');
         item.className = 'item-mural';
         item.innerHTML = `
-          <img src="${foto.imagem_url}" alt="Foto de ${foto.nome}">
+          <img src="${esc(foto.imagem_url)}" alt="Foto de ${esc(foto.nome)}">
           <div class="legenda-mural">
-            <div class="nome">${foto.nome}</div>
-            ${foto.legenda ? `<div class="texto">${foto.legenda}</div>` : ''}
+            <div class="nome">${esc(foto.nome)}</div>
+            ${foto.legenda ? `<div class="texto">${esc(foto.legenda)}</div>` : ''}
           </div>
         `;
         item.querySelector('img').addEventListener('click', () => abrirLightbox(foto));
@@ -596,11 +755,11 @@
 
     async function carregarLeaderboard() {
       const container = document.getElementById('secao-leaderboard');
-      container.innerHTML = '<div class="vazio">A carregar leaderboard…</div>';
+      container.innerHTML = '<div class="vazio">A carregar o Top navegantes…</div>';
 
       const { data, error } = await supabaseClient.rpc('leaderboard');
       if (error) {
-        container.innerHTML = '<div class="vazio">Não foi possível carregar o leaderboard.</div>';
+        container.innerHTML = '<div class="vazio">Não foi possível carregar o Top navegantes.</div>';
         console.error('Erro ao ir buscar o leaderboard:', error.message, error.details, error.hint);
         return;
       }
@@ -614,8 +773,8 @@
         item.innerHTML = `
           <div class="posicao-num">${posicao}</div>
           <div class="info-lb">
-            <div class="nome-lb">${linha.nome}${souEu ? ' (tu)' : ''}</div>
-            <div class="junior-lb">${linha.junior_empresa ?? ''}</div>
+            <div class="nome-lb">${esc(linha.nome)}${souEu ? ' (tu)' : ''}</div>
+            <div class="junior-lb">${esc(linha.junior_empresa)}</div>
           </div>
           <div class="pontos-lb">${linha.total_pontos}</div>
         `;
