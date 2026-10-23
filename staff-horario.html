@@ -75,7 +75,6 @@
     font-size: 11px; font-weight: 700; color: var(--accent);
     background: #BD8C1C20; padding: 2px 8px; border-radius: 999px;
   }
-  .card-turno .info .notas { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; }
   .card-turno .info .quem { font-size: 12px; font-weight: 700; margin-top: 6px; }
 
   .vazio, .estado-carregamento { text-align: center; color: var(--muted); padding: 40px 0; font-size: 14px; }
@@ -168,7 +167,7 @@
       const { data, error } = await supabaseClient
         .from('horario')
         .select(`
-          id, titulo, funcao_no_turno, local, data, hora_inicio, hora_fim, notas,
+          id, titulo, funcao_no_turno, local, data, hora_inicio, hora_fim,
           atividades ( nome, local, data, hora_inicio, hora_fim )
         `)
         .eq('staff_id', staffAtual.id);
@@ -185,7 +184,6 @@
         data: e.data ?? e.atividades?.data ?? null,
         hora_inicio: e.hora_inicio ?? e.atividades?.hora_inicio ?? null,
         hora_fim: e.hora_fim ?? e.atividades?.hora_fim ?? null,
-        notas: e.notas,
         nome_staff: null // não precisa de mostrar o próprio nome na vista pessoal
       })).sort(ordenarPorDataHora);
     }
@@ -204,7 +202,6 @@
         data: e.data,
         hora_inicio: e.hora_inicio,
         hora_fim: e.hora_fim,
-        notas: e.notas,
         nome_staff: e.nome_staff
       })).sort(ordenarPorDataHora);
     }
@@ -252,7 +249,6 @@
             ${t.local ? `<div class="local"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21Z"/><circle cx="12" cy="9.3" r="2.3"/></svg> ${t.local}</div>` : ''}
             ${t.nome_staff ? `<div class="quem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.3" r="3.3"/><path d="M5 20c.9-4 3.6-6.2 7-6.2s6.1 2.2 7 6.2"/></svg> ${t.nome_staff}</div>` : ''}
             ${t.funcao_no_turno ? `<div class="funcao">${t.funcao_no_turno}</div>` : ''}
-            ${t.notas ? `<div class="notas">${t.notas}</div>` : ''}
           </div>
         `;
         container.appendChild(card);

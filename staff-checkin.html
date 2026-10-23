@@ -112,6 +112,8 @@
   .cartao-resultado.erro .estado-res { color: var(--erro); }
   .cartao-resultado .nome { font-size: 18px; font-weight: 700; }
   .cartao-resultado .junior { color: var(--accent); font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+  .selo-cargo { display: none; margin: 2px 0 10px; padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 800;
+    letter-spacing: .02em; background: rgba(255,200,60,.16); border: 1px solid #F2B84B; color: #F2B84B; text-align: center; }
   .linha-perfil {
     display: flex; justify-content: space-between; gap: 10px; padding: 7px 0;
     border-top: 1px solid var(--border); font-size: 13px;
@@ -213,6 +215,7 @@
     <div class="estado-res" id="res-estado">—</div>
     <div class="nome" id="res-nome">—</div>
     <div class="junior" id="res-junior">—</div>
+    <div class="selo-cargo" id="res-cargo"></div>
     <div id="res-linhas"></div>
   </div>
 
@@ -242,6 +245,7 @@
     let staffAtual = null;
     let participantes = [];            // todos os participantes (carregados 1x)
     let porCodigo = new Map();         // QR (maiúsculas) -> participante
+    let cargosMap = new Map();         // email (minúsculas) -> cargo (só quem NÃO é membro)
     let alojamentosMap = new Map();    // id -> nome
     let quartosMap = new Map();        // id -> numero
     let tipoSelecionado = null;        // só fica definido depois de o staff escolher
@@ -276,12 +280,13 @@
     }
 
     async function carregarBase() {
-      const [rp, ra, rq] = await Promise.all([
+      const [rp, ra, rq, rc] = await Promise.all([
         supabaseClient.from('participantes')
-          .select('id, nome, qr_code, junior_empresa, universidade, restricoes_alimentares, alojamento, quarto_id, turno_refeicao')
+          .select('id, nome, email, qr_code, junior_empresa, universidade, restricoes_alimentares, alojamento, quarto_id, turno_refeicao')
           .order('nome', { ascending: true }),
         supabaseClient.from('alojamentos').select('id, nome'),
-        supabaseClient.from('quartos').select('id, numero')
+        supabaseClient.from('quartos').select('id, numero'),
+        supabaseClient.from('cargos_participantes').select('email, cargo')
       ]);
 
       if (rp.error) {
@@ -292,6 +297,8 @@
       porCodigo = new Map(participantes.filter(p => p.qr_code).map(p => [p.qr_code.trim().toUpperCase(), p]));
       alojamentosMap = new Map((ra.data ?? []).map(a => [a.id, a.nome]));
       quartosMap = new Map((rq.data ?? []).map(q => [q.id, q.numero]));
+      if (rc.error) console.error('Erro ao ir buscar cargos:', rc.error.message);
+      cargosMap = new Map((rc.data ?? []).map(c => [String(c.email).trim().toLowerCase(), c.cargo]));
     }
 
     function preencherFiltroJunior() {
@@ -479,7 +486,7 @@
       if (!p) {
         // Pode ser alguém adicionado depois de a página abrir.
         const { data } = await supabaseClient.from('participantes')
-          .select('id, nome, qr_code, junior_empresa, universidade, restricoes_alimentares, alojamento, quarto_id, turno_refeicao')
+          .select('id, nome, email, qr_code, junior_empresa, universidade, restricoes_alimentares, alojamento, quarto_id, turno_refeicao')
           .eq('qr_code', codigo).maybeSingle();
         if (data) { p = data; participantes.push(p); porCodigo.set(codigo.toUpperCase(), p); }
       }
@@ -579,6 +586,12 @@
       document.getElementById('res-estado').textContent = texto;
       document.getElementById('res-nome').textContent = p.nome ?? '—';
       document.getElementById('res-junior').textContent = p.junior_empresa ?? '—';
+
+      // Só o staff vê isto. Membros não têm entrada na tabela, por isso não aparece nada.
+      const cargo = cargosMap.get(String(p.email ?? '').trim().toLowerCase());
+      const seloCargo = document.getElementById('res-cargo');
+      seloCargo.textContent = cargo ?? '';
+      seloCargo.style.display = cargo ? 'block' : 'none';
 
       const linhas = [];
       const restr = p.restricoes_alimentares && p.restricoes_alimentares !== 'Nenhuma' ? p.restricoes_alimentares : null;

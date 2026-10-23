@@ -48,6 +48,9 @@
   .patrocinador.fundo-preto { background: #000; border-color: rgba(255,255,255,.12); }
   .patrocinador.fundo-azul { background: #3581C3; border-color: rgba(255,255,255,.2); }
   .grelha-patrocinadores .patrocinador:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .grelha-iseg { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .grelha-iseg .patrocinador { height: 130px; padding: 10px; }
+  .grelha-iseg .patrocinador img { max-height: 110px; }
   .nota-patrocinadores { font-size: 12px; color: var(--suave); margin: 12px 2px 0; }
 
   .estado-carregamento { text-align: center; color: var(--suave); padding: 50px 0; font-size: 14px; }
@@ -125,6 +128,15 @@
         </a>
         <a class="patrocinador" href="https://www.redbull.com/pt-pt/energydrink" target="_blank" rel="noopener noreferrer" aria-label="Red Bull — abrir website">
           <img src="patrocinadores/redbull.png" alt="Red Bull" loading="lazy">
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <div class="titulo-seccao">Também no ISEG...</div>
+      <div class="grelha-patrocinadores grelha-iseg">
+        <a class="patrocinador fundo-preto" href="https://www.instagram.com/impulso_aeiseg/" target="_blank" rel="noopener noreferrer" aria-label="Impulso by AEISEG — abrir Instagram">
+          <img src="patrocinadores/impulso.png" alt="Impulso by AEISEG" loading="lazy">
         </a>
       </div>
     </section>
