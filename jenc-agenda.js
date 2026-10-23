@@ -31,7 +31,7 @@
     background: var(--c-bg, #DCE6F7); color: var(--c-tx, #0C2340); border: 1px solid var(--c-bd, rgba(12,35,64,.08)); line-height: 1.2; }
   .bloco.clicavel { cursor: pointer; }
   .bloco.sel { box-shadow: 0 0 0 2px #BD8C1C inset; }
-  .bloco .hora-b { font-size: 10.5px; font-weight: 700; opacity: .8; }
+  .bloco .hora-b { font-size: 10.5px; font-weight: 700; opacity: .8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .bloco .nome-b { font-size: 12px; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .bloco .local-b { font-size: 10.5px; opacity: .78; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .bloco.compacto { flex-direction: row; align-items: center; gap: 6px; padding: 2px 7px; }
@@ -190,7 +190,7 @@
         html += `<div class="${cls}" data-id="${esc(a.id)}" style="--c-bg:${cbg};--c-tx:${ctx};top:${topo(it.s) + 1}px;height:${h}px;left:calc(${it.col * larg}% + ${it.col ? 2 : 0}px);width:calc(${larg}% - ${it.ncol > 1 ? 2 : 0}px)">
           ${compacto
             ? `<div class="hora-b">${a.hora_inicio.slice(0, 5)}</div><div class="nome-b">${esc(a.nome)}</div>`
-            : `<div class="hora-b">${horas}</div><div class="nome-b" style="${etiqueta ? 'padding-right:46px' : ''}">${esc(a.nome)}</div>${mostraLocal ? `<div class="local-b">${esc(a.local)}</div>` : ''}`}
+            : `<div class="hora-b" style="${etiqueta ? 'padding-right:46px' : ''}">${horas}${a.local ? ' · ' + esc(a.local) : ''}</div><div class="nome-b" style="${etiqueta ? 'padding-right:46px' : ''}">${esc(a.nome)}</div>`}
           ${etiqueta}
         </div>`;
       });
