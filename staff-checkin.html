@@ -145,6 +145,8 @@
     background: var(--accent); color: #0C2340; font-size: 12px; font-weight: 700; cursor: pointer;
   }
 
+  .tag-registado { flex-shrink: 0; font-size: 11px; font-weight: 700; color: var(--sucesso); }
+
   .estado-carregamento { text-align: center; color: var(--muted); padding: 40px 0; font-size: 14px; }
   .secao-extra { margin-top: 18px; }
   .botao-secao-extra {
@@ -192,10 +194,6 @@
     <div class="tipo-opcao" data-tipo="almoco" onclick="escolherTipo('almoco')">Almoço</div>
     <div class="tipo-opcao" data-tipo="jantar" onclick="escolherTipo('jantar')">Jantar</div>
   </div>
-  <div class="linha-tipo">
-    <div class="tipo-opcao ativo" data-acao="entrada" onclick="escolherAcao('entrada')">✓ Entrada</div>
-    <div class="tipo-opcao acao-saida" data-acao="saida" onclick="escolherAcao('saida')">✕ Saída</div>
-  </div>
   <div class="estado-modo" id="estado-modo">Escolhe o tipo de check-in para começar.</div>
 
   <div id="zona-leitura" class="bloqueado">
@@ -219,7 +217,11 @@
     <div id="res-linhas"></div>
   </div>
 
-  <p class="passo">POR REGISTAR</p>
+  <p class="passo">PARTICIPANTES</p>
+  <div class="linha-tipo" id="filtro-vista">
+    <div class="tipo-opcao ativo" data-vista="pendentes" onclick="escolherVista('pendentes')">Por registar</div>
+    <div class="tipo-opcao" data-vista="registados" onclick="escolherVista('registados')">Já registados</div>
+  </div>
   <div class="filtros">
     <select id="filtro-junior" onchange="aoMudarFiltro()">
       <option value="">Todas as júnior empresas</option>
@@ -249,7 +251,8 @@
     let alojamentosMap = new Map();    // id -> nome
     let quartosMap = new Map();        // id -> numero
     let tipoSelecionado = null;        // só fica definido depois de o staff escolher
-    let acaoSelecionada = 'entrada';
+    const acaoSelecionada = 'entrada';   // só há entradas (a saída foi retirada)
+    let vistaLista = 'pendentes';      // 'pendentes' | 'registados'
     let comEntrada = new Set();        // participante_id com entrada neste tipo
     let comSaida = new Set();          // participante_id com saída neste tipo
     let aProcessar = false;            // trava contra leituras repetidas
@@ -328,13 +331,6 @@
       renderLista();
     }
 
-    async function escolherAcao(acao) {
-      acaoSelecionada = acao;
-      document.querySelectorAll('[data-acao]').forEach(el => el.classList.toggle('ativo', el.dataset.acao === acao));
-      atualizarEstadoModo();
-      renderLista();
-    }
-
     function atualizarEstadoModo() {
       const el = document.getElementById('estado-modo');
       const zona = document.getElementById('zona-leitura');
@@ -344,7 +340,7 @@
         zona.classList.add('bloqueado');
         return;
       }
-      el.textContent = `A registar: ${ROTULOS_TIPO[tipoSelecionado]} · ${acaoSelecionada === 'entrada' ? 'Entrada' : 'Saída'}`;
+      el.textContent = `A registar: ${ROTULOS_TIPO[tipoSelecionado]}`;
       el.className = 'estado-modo pronto';
       zona.classList.remove('bloqueado');
     }
@@ -376,6 +372,12 @@
       return f === SEM_JUNIOR ? !p.junior_empresa : p.junior_empresa === f;
     }
 
+    function escolherVista(vista) {
+      vistaLista = vista;
+      document.querySelectorAll('[data-vista]').forEach(el => el.classList.toggle('ativo', el.dataset.vista === vista));
+      renderLista();
+    }
+
     function aMudarFiltroRecentes() {
       if (document.getElementById('painel-recentes').classList.contains('aberto')) carregarRecentes();
     }
@@ -384,10 +386,14 @@
     function renderLista() {
       const lista = document.getElementById('lista-pendentes');
       const contador = document.getElementById('contador-lista');
+      const chipPend = document.querySelector('[data-vista="pendentes"]');
+      const chipReg = document.querySelector('[data-vista="registados"]');
       lista.innerHTML = '';
 
       if (!tipoSelecionado) {
         contador.textContent = '';
+        chipPend.textContent = 'Por registar';
+        chipReg.textContent = 'Já registados';
         lista.innerHTML = '<div class="estado-carregamento" style="padding:20px 0;">Escolhe o tipo de check-in acima para veres quem falta.</div>';
         return;
       }
@@ -395,41 +401,42 @@
       const pesquisa = document.getElementById('filtro-nome').value.trim().toLowerCase();
       const doGrupo = participantes.filter(passaFiltroJunior);
 
-      // Entrada: quem ainda não tem entrada. Saída: quem tem entrada mas ainda não saiu.
-      const pendente = p => acaoSelecionada === 'entrada'
-        ? !comEntrada.has(p.id)
-        : comEntrada.has(p.id) && !comSaida.has(p.id);
+      const registados = doGrupo.filter(p => comEntrada.has(p.id));
+      const pendentes = doGrupo.filter(p => !comEntrada.has(p.id));
 
-      const pendentes = doGrupo.filter(pendente);
-      const visiveis = pendentes.filter(p =>
+      chipPend.textContent = `Por registar (${pendentes.length})`;
+      chipReg.textContent = `Já registados (${registados.length})`;
+      contador.textContent = `${doGrupo.length} no total`;
+
+      const base = vistaLista === 'registados' ? registados : pendentes;
+      const visiveis = base.filter(p =>
         !pesquisa ||
         (p.nome ?? '').toLowerCase().includes(pesquisa) ||
         (p.qr_code ?? '').toLowerCase().includes(pesquisa)
       );
 
-      const feitos = acaoSelecionada === 'entrada'
-        ? doGrupo.filter(p => comEntrada.has(p.id)).length
-        : doGrupo.filter(p => comSaida.has(p.id)).length;
-      contador.textContent = `${pendentes.length} por registar · ${feitos} já registados (${doGrupo.length} no total)`;
-
       if (visiveis.length === 0) {
-        lista.innerHTML = `<div class="estado-carregamento" style="padding:20px 0;">${
-          pendentes.length === 0 ? 'Ninguém por registar aqui. ' : 'Ninguém encontrado com essa pesquisa.'
-        }</div>`;
+        let msg = 'Ninguém encontrado com essa pesquisa.';
+        if (base.length === 0) msg = vistaLista === 'registados' ? 'Ainda ninguém foi registado aqui.' : 'Ninguém por registar aqui. ';
+        lista.innerHTML = `<div class="estado-carregamento" style="padding:20px 0;">${msg}</div>`;
         return;
       }
 
       visiveis.forEach(p => {
         const item = document.createElement('div');
         item.className = 'item-pendente';
+        const acaoHtml = vistaLista === 'registados'
+          ? '<span class="tag-registado">✓ Registado</span>'
+          : '<button class="botao-registar-mini">Registar</button>';
         item.innerHTML = `
           <div>
             <div class="nome">${esc(p.nome)}</div>
             <div class="detalhe">${esc([p.qr_code, p.junior_empresa].filter(Boolean).join(' · '))}</div>
           </div>
-          <button class="botao-registar-mini">Registar</button>
+          ${acaoHtml}
         `;
-        item.querySelector('button').addEventListener('click', () => registarParticipante(p));
+        const btn = item.querySelector('button');
+        if (btn) btn.addEventListener('click', () => registarParticipante(p));
         lista.appendChild(item);
       });
     }
