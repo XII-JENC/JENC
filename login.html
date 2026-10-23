@@ -137,39 +137,29 @@
     // `participantes` e redireciona para a página correspondente.
     // Devolve false se não encontrar nenhuma (conta sem acesso).
     async function redirecionarConformeTipo(user) {
-      const { data: staff } = await supabaseClient
-        .from('staff')
-        .select('id')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-      if (staff) {
-        window.location.href = 'staff-inicio.html';
-        return true;
+      // Usa limit(1) em vez de maybeSingle(): se por engano houver 2 linhas para o mesmo
+      // user_id, o maybeSingle dá erro e a pessoa caía no staff sem ninguém perceber.
+      async function existe(tabela) {
+        const { data, error } = await supabaseClient
+          .from(tabela).select('id').eq('user_id', user.id).limit(1);
+        if (error) console.error(`Erro ao ler a tabela ${tabela}:`, error.message, error.details, error.hint);
+        return !error && Array.isArray(data) && data.length > 0;
       }
 
-      const { data: logistica } = await supabaseClient
-        .from('logistica')
-        .select('id')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-      if (logistica) {
+      // A logística é verificada ANTES do staff: quem está nas duas tabelas
+      // tem de ir para a área da logística (que tem as funções adicionais).
+      if (await existe('logistica')) {
         window.location.href = 'logistica-inicio.html';
         return true;
       }
-
-      const { data: participante } = await supabaseClient
-        .from('participantes')
-        .select('id')
-        .eq('user_id', user.id)
-        .maybeSingle();
-
-      if (participante) {
+      if (await existe('staff')) {
+        window.location.href = 'staff-inicio.html';
+        return true;
+      }
+      if (await existe('participantes')) {
         window.location.href = 'inicio.html';
         return true;
       }
-
       return false;
     }
 
